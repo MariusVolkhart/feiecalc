@@ -7,7 +7,7 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 
  - [ ] Base template (bootstrap)
  - [ ] Trip form
- - [ ] Calendar module
+ - [ ] [Calendar module](http://www.bootstrap-year-calendar.com/)
  - [ ] Saving trips in localstorage
  - [ ] Displaying trips on the calendar
 
