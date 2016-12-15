@@ -15,7 +15,12 @@ var TripFormView = Backbone.View.extend({
     
     events: {
         'click button[data-action=save]': function(e){
+            e.preventDefault();
             this.saveTrip();
+        },
+        'click [data-action=delete]': function(e){
+            e.preventDefault();
+            this.deleteTrip();
         }
     },
     
@@ -46,11 +51,13 @@ var TripFormView = Backbone.View.extend({
         }
         
         if(existingTrip){
+            this.$el.find('.delete-trip').show();
             this.$el.find('[data-field=trip-id]').val(existingTrip.id);
             this.$el.find('[data-field=trip-country]').val(existingTrip.attributes.country);
             startDate = moment(existingTrip.attributes.startDate);
             endDate = moment(existingTrip.attributes.endDate);
         }else{
+            this.$el.find('.delete-trip').hide();
             this.$el.find('[data-field=trip-id]').val('');
         }
         
@@ -119,7 +126,18 @@ var TripFormView = Backbone.View.extend({
         // Close the modal
         this.$el.modal('hide');
         this.$el.find('[data-field=trip-country]').val('');
+    },
+    
+    deleteTrip: function(){
+        if(confirm('Are you sure you want to delete this trip?')){
+            var tripId = this.$el.find('[data-field=trip-id]').val();
+            var thisTrip = tripsColl.get(tripId);
+            thisTrip.destroy();
+            this.$el.modal('hide');
+            tripsColl.trigger('change');
+        }
     }
+    
 });
 
 // Calendar Helpers
