@@ -31,9 +31,27 @@ var TripFormView = Backbone.View.extend({
     
     showTripForm: function(startDate, endDate){
         
-        if(!freeDateRange(startDate, endDate)){
+        // Clicked a date, maybe an event
+        var existingTrip = false;
+        if(startDate.format('YYYY-MM-DD') == endDate.format('YYYY-MM-DD')){
+            var tripId = freeDate(startDate, true);
+            if(tripId){
+                existingTrip = tripsColl.get(tripId);
+            }
+        }
+        
+        if(!existingTrip && !freeDateRange(startDate, endDate)){
             alert('Please select a date range not already occupied by another trip');
             return false;
+        }
+        
+        if(existingTrip){
+            this.$el.find('[data-field=trip-id]').val(existingTrip.id);
+            this.$el.find('[data-field=trip-country]').val(existingTrip.attributes.country);
+            startDate = moment(existingTrip.attributes.startDate);
+            endDate = moment(existingTrip.attributes.endDate);
+        }else{
+            this.$el.find('[data-field=trip-id]').val('');
         }
         
         this.$el.find('[data-field=trip-start-date]').val(startDate.format('YYYY-MM-DD'));
@@ -74,6 +92,7 @@ var TripFormView = Backbone.View.extend({
         // Save the trip
 
         var values = {
+            id: this.$el.find('[data-field=trip-id]').val(),
             country: this.$el.find('[data-field=trip-country]').val(),
             startDate: moment(this.$el.find('[data-field=trip-start-date]').val()),
             endDate: moment(this.$el.find('[data-field=trip-end-date]').val())
@@ -85,9 +104,17 @@ var TripFormView = Backbone.View.extend({
         }
         
         // Save the trip
-        var trip = new TripModel(values);
-        tripsColl.add(trip);
-        trip.save();
+        if(values.id){
+            var thisTrip = tripsColl.get(values.id);
+            thisTrip.set({
+                country: values.country
+            });
+            thisTrip.save();
+        }else{
+            var trip = new TripModel(values);
+            tripsColl.add(trip);
+            trip.save();
+        }
         
         // Close the modal
         this.$el.modal('hide');
@@ -131,18 +158,22 @@ var mouseOnDay = function(e){
 }
 
 // Open date checker
-var freeDate = function(tripDate){
+var freeDate = function(tripDate, returnTripId){
     
     // Check for overlap
     var overlap = false;
     tripsColl.toJSON().forEach(function(trip){
         if(tripDate.isBetween(moment(trip.startDate), moment(trip.endDate))){
-            overlap = true;
+            overlap = trip.id;
         }
     });
     
     if(overlap){
-        return false;
+        if(returnTripId){
+            return overlap;
+        }else{
+            return false;
+        }
     }
     
     // Check if 2 trips start/end on this date
@@ -150,14 +181,18 @@ var freeDate = function(tripDate){
     var tripEnds = false;
     tripsColl.toJSON().forEach(function(trip){
         if(moment(trip.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
-            tripStarts = true;
+            tripStarts = trip.id;
         }else if(moment(trip.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
-            tripEnds = true;
+            tripEnds = trip.id;
         }
     });
     
     if(tripStarts && tripEnds){
-        return false;
+        if(returnTripId){
+            return tripStarts;
+        }else{
+            return false;
+        }
     }
     
     return true;

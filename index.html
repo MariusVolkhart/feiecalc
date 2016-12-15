@@ -81,6 +81,7 @@
         
         <script type='text/template' id='template-trip-form'>
             <div class='form-group'>
+                <label class='control-label'>Country Visited</label>
                 <select data-field='trip-country' class='form-control'>
                     <option value='' disabled selected>Which country did you visit?</option>
                     <% countries.forEach(function(country){ %>
@@ -89,12 +90,9 @@
                 </select>
             </div>
             
-            <div class='form-group'>
-                <input type='text' placeholder='What was the date you arrived? (YYYY-MM-DD)' data-field='trip-start-date' class='form-control'/>
-            </div>
-            <div class='form-group'>
-                <input type='text' placeholder='What was the date you departed? (YYYY-MM-DD)' data-field='trip-end-date' class='form-control'/>
-            </div>
+            <input type='hidden' data-field='trip-id'/>
+            <input type='hidden' data-field='trip-start-date'/>
+            <input type='hidden' data-field='trip-end-date'/>
         </script>
         
         <!-- Bootstrap, jQuery, Moment, lodash, backbone from CDN -->
