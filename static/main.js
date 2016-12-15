@@ -29,17 +29,27 @@ var TripFormView = Backbone.View.extend({
         }));
     },
     
-    showNew: function(startDate, endDate){
+    showTripForm: function(startDate, endDate){
+        
+        if(!freeDateRange(startDate, endDate)){
+            alert('Please select a date range not already occupied by another trip');
+            return false;
+        }
+        
         this.$el.find('[data-field=trip-start-date]').val(startDate.format('YYYY-MM-DD'));
         this.$el.find('[data-field=trip-end-date]').val(endDate.format('YYYY-MM-DD'));
+        
         $('#trip-modal').modal('show');
-    },
-    
-    showExisting: function(){
     },
     
     validate: function(values){
         // Validate the trip details
+        
+        var tripDuration = moment.duration(moment(values.endDate).diff(moment(values.startDate))).days();
+        if(!tripDuration){
+            alert('Trip duration must be at least 1 day');
+            return false;
+        }
         
         if(!values.country){
             alert('Please select a country');
@@ -55,6 +65,7 @@ var TripFormView = Backbone.View.extend({
             alert('Please enter a valid end date (format: YYYY-MM-DD)');
             return false;
         }
+        
         
         return true;
     },
@@ -119,6 +130,59 @@ var mouseOnDay = function(e){
     }
 }
 
+// Open date checker
+var freeDate = function(tripDate){
+    
+    // Check for overlap
+    var overlap = false;
+    tripsColl.toJSON().forEach(function(trip){
+        if(tripDate.isBetween(moment(trip.startDate), moment(trip.endDate))){
+            overlap = true;
+        }
+    });
+    
+    if(overlap){
+        return false;
+    }
+    
+    // Check if 2 trips start/end on this date
+    var tripStarts = false;
+    var tripEnds = false;
+    tripsColl.toJSON().forEach(function(trip){
+        if(moment(trip.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+            tripStarts = true;
+        }else if(moment(trip.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+            tripEnds = true;
+        }
+    });
+    
+    if(tripStarts && tripEnds){
+        return false;
+    }
+    
+    return true;
+}
+
+var freeDateRange = function(startDate, endDate){
+    
+    if(!freeDate(startDate) || !freeDate(endDate)){
+        return false;
+    }
+    
+    var encapsulates = false;
+    tripsColl.toJSON().forEach(function(trip){
+        if(moment(trip.startDate).isBetween(startDate, endDate)){
+            encapsulates = true;
+        }else if(moment(trip.endDate).isBetween(startDate, endDate)){
+            encapsulates = true;
+        }
+    });
+    if(encapsulates){
+        return false;
+    }
+    
+    return true;
+}
 
 // Init    
 
@@ -144,7 +208,7 @@ $('#calendar').calendar({
         }
     },
     selectRange: function(e){
-        tripForm.showNew(moment(e.startDate), moment(e.endDate));
+        tripForm.showTripForm(moment(e.startDate), moment(e.endDate));
     },
     dataSource: []
 });
@@ -165,3 +229,4 @@ tripsColl.on('change reset', function(){
 
 // Load trips
 tripsColl.fetch({ reset: true });
+
