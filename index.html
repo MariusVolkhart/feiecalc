@@ -59,14 +59,56 @@
             </div>
         </div>
         
-        <!-- Bootstrap, jQuery, Moment from CDN -->
+        <div class='modal fade' role='dialog' id='trip-modal'>
+            <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                        <h4 class='modal-title'>Trip Details</h4>
+                    </div>
+                    <div class='modal-body'>
+                        <select data-field='trip-country'>
+                            <option value='jp'>Japan</option>
+                        </select>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                        <button type='button' class='btn btn-primary' data-action='save'>Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type='text/template' id='template-trip-form'>
+            <div class='form-group'>
+                <select data-field='trip-country' class='form-control'>
+                    <option value='' disabled selected>Which country did you visit?</option>
+                    <% countries.forEach(function(country){ %>
+                        <option value='<%= country.code.toLowerCase() %>'><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            
+            <div class='form-group'>
+                <input type='text' placeholder='What was the date you arrived? (YYYY-MM-DD)' data-field='trip-start-date' class='form-control'/>
+            </div>
+            <div class='form-group'>
+                <input type='text' placeholder='What was the date you departed? (YYYY-MM-DD)' data-field='trip-end-date' class='form-control'/>
+            </div>
+        </script>
+        
+        <!-- Bootstrap, jQuery, Moment, lodash, backbone from CDN -->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa' crossorigin='anonymous'></script>
         
         <script src='/static/lib/bootstrap-year-calendar.min.js'></script>
         
         <!-- Load our scripts -->
+        <script src='static/countries.js'></script>
         <script src='static/main.js'></script>
         
         <!-- Google Analytics -->
