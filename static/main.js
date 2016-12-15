@@ -42,6 +42,9 @@ var TripFormView = Backbone.View.extend({
             var tripId = freeDate(startDate, true);
             if(tripId){
                 existingTrip = tripsColl.get(tripId);
+            }else{
+                alert('Trip duration must be at least 1 day');
+                return false;
             }
         }
         
@@ -213,6 +216,8 @@ var freeDate = function(tripDate, returnTripId){
         }
     }
     
+    // What...
+    if(returnTripId){ return false; }
     return true;
 }
 
