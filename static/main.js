@@ -111,7 +111,7 @@ var TripFormView = Backbone.View.extend({
         if(existingTrip){
             this.$el.find('.delete-trip').show();
             this.$el.find('[data-field=trip-id]').val(existingTrip.id);
-            this.$el.find('[data-field=trip-country]').val(existingTrip.attributes.country);
+            this.$el.find('[data-field=trip-country]').val(existingTrip.attributes.country).selectpicker('refresh');
             startDate = moment(existingTrip.attributes.startDate);
             endDate = moment(existingTrip.attributes.endDate);
         }else{
@@ -188,7 +188,7 @@ var TripFormView = Backbone.View.extend({
         
         // Close the modal
         this.$el.modal('hide');
-        this.$el.find('[data-field=trip-country]').val('');
+        this.$el.find('[data-field=trip-country]').val('').selectpicker('refresh');
         this.$el.find('[data-field=trip-id]').val('');
     },
     
