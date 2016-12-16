@@ -15,4 +15,4 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 
 ## Example Calculation
 
-![FEIE Screenshot](http://i.imgur.com/hruOIDq.png)
+![FEIE Screenshot](http://i.imgur.com/iJsciGn.png)
