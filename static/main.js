@@ -128,13 +128,6 @@ var TripFormView = Backbone.View.extend({
     validate: function(values){
         // Validate the trip details
         
-        var tripDuration = duration(safeDate(values.startDate), safeDate(values.endDate));
-        
-        if(!tripDuration){
-            alert('Trip duration must be at least 1 day');
-            return false;
-        }
-        
         if(!values.country){
             alert('Please select a country');
             return false;

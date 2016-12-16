@@ -70,9 +70,10 @@ var duration = function(startDate, endDate){
     // Returns the number of full days in a trip
     
     var tripDuration = moment.duration(startDate.diff(endDate));
-    tripDuration = (tripDuration.asDays() * -1)-1;
+    tripDuration = tripDuration.asDays() * -1;
     
-    return tripDuration;
+    // Subtract 1 full day since there are 2 partial days on each side
+    return tripDuration - 1;
 }
 
 var safeDate = function(dateStr){
