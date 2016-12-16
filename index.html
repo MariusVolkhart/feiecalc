@@ -9,10 +9,11 @@
 
         <title>FEIE Calc · A US Foreign Earned Income Tax Exemption calculator</title>
 
-        <!-- Bootstrap styles from CDN -->
+        <!-- Styles from CDN -->
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css'>
         
+        <!-- Local Styles -->
         <link rel='stylesheet' href='/static/lib/bootstrap-year-calendar.min.css'>
         
         <style type='text/css'>
@@ -38,7 +39,7 @@
                     </div>
                     
                     <p class='lead'>
-                        A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>.
+                        A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging.
                     </p>
                     
                     <!-- if trips.length > 1 -->
@@ -64,9 +65,7 @@
                         <h4 class='modal-title'>Trip Details</h4>
                     </div>
                     <div class='modal-body'>
-                        <select data-field='trip-country'>
-                            <option value='jp'>Japan</option>
-                        </select>
+                        <select data-field='trip-country'></select>
                     </div>
                     <div class='modal-footer'>
                         <div class='pull-left delete-trip'>
@@ -98,12 +97,12 @@
         <script type='text/template' id='template-progress'>
             <div class='progress'>
                 <div class='progress-bar' role='progressbar' style='width: <%= progress %>%; min-width: 100px;'>
-                    <%= dayCount %> / 330 days
+                    <%= dayCount %> / <%= targetCount %> days
                 </div>
             </div>
         </script>
         
-        <!-- Bootstrap, jQuery, Moment, lodash, backbone from CDN -->
+        <!-- Scripts from CDN -->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
         <script src='https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js'></script>
@@ -112,9 +111,10 @@
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa' crossorigin='anonymous'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js'></script>
         
+        <!-- Local Scripts -->
         <script src='/static/lib/bootstrap-year-calendar.min.js'></script>
         
-        <!-- Load our scripts -->
+        <!-- Our scripts -->
         <script src='static/countries.js'></script>
         <script src='static/utils.js'></script>
         <script src='static/main.js'></script>

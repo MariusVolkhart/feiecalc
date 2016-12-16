@@ -1,13 +1,17 @@
+var TARGET_COUNT = 330;
+
 // Models
 var TripModel = Backbone.Model.extend();
-// Collections
 
+
+// Collections
 var TripsCollection = Backbone.Collection.extend({
     
     model: TripModel,
     localStorage: new Backbone.LocalStorage('trips')
     
 });
+
 
 // Views
 var ProgressView = Backbone.View.extend({
@@ -19,12 +23,13 @@ var ProgressView = Backbone.View.extend({
     
     render: function(){
         var dayCount = this.calculateDayCount();
-        var progress = Math.round(dayCount/330*100);
+        var progress = Math.round(dayCount/TARGET_COUNT*100);
         if(progress>100){
             progress = 100;
         }
         this.$el.html(this.template({
             dayCount: dayCount,
+            targetCount: TARGET_COUNT,
             progress: progress
         }));
     },
@@ -209,6 +214,7 @@ var tripForm = new TripFormView({
     collection: tripsColl
 });
 
+// Draw progress bar
 var progressBar = new ProgressView({
     el: $('#progress'),
     collection: tripsColl
@@ -250,6 +256,7 @@ tripsColl.on('change reset', function(){
     $('#calendar').data('calendar').setDataSource(tripsList);
 });
 
-// Load trips
+// Load trips data
+// Note: This triggers everything to redraw (change/reset events fired)
 tripsColl.fetch({ reset: true });
 
