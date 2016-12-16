@@ -160,8 +160,8 @@ var TripFormView = Backbone.View.extend({
         var values = {
             id: this.$el.find('[data-field=trip-id]').val(),
             country: this.$el.find('[data-field=trip-country]').val(),
-            startDate: moment(this.$el.find('[data-field=trip-start-date]').val()),
-            endDate: moment(this.$el.find('[data-field=trip-end-date]').val())
+            startDate: safeDate('[data-field=trip-start-date]').val()),
+            endDate: safeDate('[data-field=trip-end-date]').val())
         };
         
         // Validate it first
@@ -234,7 +234,9 @@ $('#calendar').calendar({
         }
     },
     selectRange: function(e){
-        tripForm.showTripForm(moment(e.startDate), moment(e.endDate));
+        var startDate = safeDate(e.startDate);
+        var endDate = safeDate(e.endDate);
+        tripForm.showTripForm(startDate, endDate);
     },
     dataSource: []
 });

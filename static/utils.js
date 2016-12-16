@@ -75,6 +75,10 @@ var duration = function(startDate, endDate){
     return tripDuration;
 }
 
+var safeDate = function(dateStr){
+    return moment.utc(dateStr).startOf('day');
+}
+
 var mouseOnTrip = function(e){
     // Calendar Helper: Show the trip hover tooltip
     
@@ -109,3 +113,4 @@ var mouseOnTrip = function(e){
         $(e.element).popover('show');
     }
 }
+
