@@ -13,3 +13,6 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 - [ ] Clean up "is same date" comparisons
 - [ ] Allow trips across years (currently can't select pre-Jan1)
 
+## Example Calculation
+
+![FEIE Screenshot](http://i.imgur.com/hruOIDq.png)
