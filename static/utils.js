@@ -6,7 +6,7 @@ var freeDate = function(tripDate, returnTripId){
     // Check for overlap
     var overlap = false;
     tripsColl.each(function(trip){
-        if(tripDate.isBetween(moment(trip.attributes.startDate), moment(trip.attributes.endDate))){
+        if(tripDate.isBetween(safeDate(trip.attributes.startDate), safeDate(trip.attributes.endDate))){
             overlap = trip.id;
         }
     });
@@ -23,9 +23,9 @@ var freeDate = function(tripDate, returnTripId){
     var tripStarts = false;
     var tripEnds = false;
     tripsColl.each(function(trip){
-        if(moment(trip.attributes.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+        if(safeDate(trip.attributes.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
             tripStarts = trip.id;
-        }else if(moment(trip.attributes.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+        }else if(safeDate(trip.attributes.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
             tripEnds = trip.id;
         }
     });
@@ -53,9 +53,9 @@ var freeDateRange = function(startDate, endDate){
     
     var encapsulates = false;
     tripsColl.each(function(trip){
-        if(moment(trip.attributes.startDate).isBetween(startDate, endDate)){
+        if(safeDate(trip.attributes.startDate).isBetween(startDate, endDate)){
             encapsulates = true;
-        }else if(moment(trip.attributes.endDate).isBetween(startDate, endDate)){
+        }else if(safeDate(trip.attributes.endDate).isBetween(startDate, endDate)){
             encapsulates = true;
         }
     });
@@ -76,7 +76,7 @@ var duration = function(startDate, endDate){
 }
 
 var safeDate = function(dateStr){
-    return moment.utc(dateStr).startOf('day');
+    return moment(dateStr).startOf('day');
 }
 
 var mouseOnTrip = function(e){
@@ -86,8 +86,8 @@ var mouseOnTrip = function(e){
         var content = '';
         
         for(var i in e.events) {
-            var startDate =  moment(e.events[i].startDate);
-            var endDate =  moment(e.events[i].endDate);
+            var startDate =  safeDate(e.events[i].startDate);
+            var endDate =  safeDate(e.events[i].endDate);
             var tripDuration = duration(startDate, endDate);
             
             content += '\

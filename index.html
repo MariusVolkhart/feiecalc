@@ -96,13 +96,11 @@
         </script>
         
         <script type='text/template' id='template-progress'>
-            <% if(dayCount > 40){ %>
-                <div class='progress'>
-                    <div class='progress-bar' role='progressbar' style='width: <%= progress %>%'>
-                        <%= dayCount %> / 330 days
-                    </div>
+            <div class='progress'>
+                <div class='progress-bar' role='progressbar' style='width: <%= progress %>%; min-width: 100px;'>
+                    <%= dayCount %> / 330 days
                 </div>
-            <% } %>
+            </div>
         </script>
         
         <!-- Bootstrap, jQuery, Moment, lodash, backbone from CDN -->

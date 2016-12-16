@@ -40,8 +40,8 @@ var ProgressView = Backbone.View.extend({
         
         // Count full days
         this.collection.each(function(trip){
-            var endDate = moment(trip.attributes.endDate);
-            var startDate = moment(trip.attributes.startDate);
+            var endDate = safeDate(trip.attributes.endDate);
+            var startDate = safeDate(trip.attributes.startDate);
             var tripDuration = duration(startDate, endDate);
             dayCount += tripDuration;
         });
@@ -50,8 +50,8 @@ var ProgressView = Backbone.View.extend({
         this.collection.each(function(trip){
             var hasOnwardTrip = false;
             this.collection.each(function(trip2){
-                var tripEnd = moment(trip.attributes.endDate);
-                var trip2Start = moment(trip2.attributes.startDate);
+                var tripEnd = safeDate(trip.attributes.endDate);
+                var trip2Start = safeDate(trip2.attributes.startDate);
                 if(trip2Start.format('YYYY-MM-DD') == tripEnd.format('YYYY-MM-DD')){
                     hasOnwardTrip = true;
                 }
@@ -112,8 +112,8 @@ var TripFormView = Backbone.View.extend({
             this.$el.find('.delete-trip').show();
             this.$el.find('[data-field=trip-id]').val(existingTrip.id);
             this.$el.find('[data-field=trip-country]').val(existingTrip.attributes.country).selectpicker('refresh');
-            startDate = moment(existingTrip.attributes.startDate);
-            endDate = moment(existingTrip.attributes.endDate);
+            startDate = safeDate(existingTrip.attributes.startDate);
+            endDate = safeDate(existingTrip.attributes.endDate);
         }else{
             this.$el.find('.delete-trip').hide();
             this.$el.find('[data-field=trip-id]').val('');
@@ -128,7 +128,7 @@ var TripFormView = Backbone.View.extend({
     validate: function(values){
         // Validate the trip details
         
-        var tripDuration = duration(moment(values.startDate), moment(values.endDate));
+        var tripDuration = duration(safeDate(values.startDate), safeDate(values.endDate));
         
         if(!tripDuration){
             alert('Trip duration must be at least 1 day');
@@ -160,8 +160,8 @@ var TripFormView = Backbone.View.extend({
         var values = {
             id: this.$el.find('[data-field=trip-id]').val(),
             country: this.$el.find('[data-field=trip-country]').val(),
-            startDate: safeDate('[data-field=trip-start-date]').val()),
-            endDate: safeDate('[data-field=trip-end-date]').val())
+            startDate: safeDate(this.$el.find('[data-field=trip-start-date]').val()),
+            endDate: safeDate(this.$el.find('[data-field=trip-end-date]').val())
         };
         
         // Validate it first
@@ -249,8 +249,8 @@ tripsColl.on('change reset', function(){
             country: _.find(COUNTRIES, {
                 code: trip.attributes.country.toUpperCase()
             }).name,
-            startDate: moment(trip.attributes.startDate)._d,
-            endDate: moment(trip.attributes.endDate)._d
+            startDate: safeDate(trip.attributes.startDate)._d,
+            endDate: safeDate(trip.attributes.endDate)._d
         });
     });
     
