@@ -10,6 +10,58 @@ var TripsCollection = Backbone.Collection.extend({
 });
 
 // Views
+var ProgressView = Backbone.View.extend({
+    template: _.template($('#template-progress').html()),
+    
+    initialize: function(){
+        this.collection.on('change reset', this.render.bind(this));
+    },
+    
+    render: function(){
+        var dayCount = this.calculateDayCount();
+        this.$el.html(this.template({
+            dayCount: dayCount,
+            progress: Math.round(dayCount/330*100)
+        }));
+    },
+    
+    calculateDayCount: function(){
+        // To calculate the day count, we will first count the number
+        // of full days in all trips, then we will add one for all
+        // days which have the end & beginning of a trip (travel day)
+        // since these travel days are not crossing into the US.
+        // This may need to be modified in the future.
+        
+        var dayCount = 0;
+        
+        // Count full days
+        this.collection.each(function(trip){
+            var endDate = moment(trip.attributes.endDate);
+            var startDate = moment(trip.attributes.startDate);
+            var tripDuration = duration(startDate, endDate);
+            dayCount += tripDuration;
+        });
+        
+        // Count travel days (which dont touch US)
+        this.collection.each(function(trip){
+            var hasOnwardTrip = false;
+            this.collection.each(function(trip2){
+                var tripEnd = moment(trip.attributes.endDate);
+                var trip2Start = moment(trip2.attributes.startDate);
+                if(trip2Start.format('YYYY-MM-DD') == tripEnd.format('YYYY-MM-DD')){
+                    hasOnwardTrip = true;
+                }
+            });
+            if(hasOnwardTrip){
+                dayCount += 1;
+            }
+        }.bind(this));
+        
+        return dayCount;
+    }
+    
+});
+
 var TripFormView = Backbone.View.extend({
     template: _.template($('#template-trip-form').html()),
     
@@ -43,7 +95,6 @@ var TripFormView = Backbone.View.extend({
             if(tripId){
                 existingTrip = tripsColl.get(tripId);
             }else{
-                alert('Trip duration must be at least 1 day');
                 return false;
             }
         }
@@ -73,7 +124,8 @@ var TripFormView = Backbone.View.extend({
     validate: function(values){
         // Validate the trip details
         
-        var tripDuration = moment.duration(moment(values.endDate).diff(moment(values.startDate))).days();
+        var tripDuration = duration(moment(values.startDate), moment(values.endDate));
+        
         if(!tripDuration){
             alert('Trip duration must be at least 1 day');
             return false;
@@ -121,14 +173,19 @@ var TripFormView = Backbone.View.extend({
             });
             thisTrip.save();
         }else{
-            var trip = new TripModel(values);
-            tripsColl.add(trip);
-            trip.save();
+            var thisTrip = new TripModel({
+                country: values.country,
+                startDate: values.startDate,
+                endDate: values.endDate
+            });
+            tripsColl.add(thisTrip);
+            thisTrip.save();
         }
         
         // Close the modal
         this.$el.modal('hide');
         this.$el.find('[data-field=trip-country]').val('');
+        this.$el.find('[data-field=trip-id]').val('');
     },
     
     deleteTrip: function(){
@@ -151,8 +208,7 @@ var mouseOnDay = function(e){
         for(var i in e.events) {
             var startDate =  moment(e.events[i].startDate);
             var endDate =  moment(e.events[i].endDate);
-            var tripDuration = moment.duration(startDate.diff(endDate));
-            tripDuration = (tripDuration.asDays() * -1)-1;
+            var tripDuration = duration(startDate, endDate);
             
             content += '\
                 <div class="event-tooltip-content">\
@@ -178,13 +234,13 @@ var mouseOnDay = function(e){
     }
 }
 
-// Open date checker
+// Utils
 var freeDate = function(tripDate, returnTripId){
     
     // Check for overlap
     var overlap = false;
-    tripsColl.toJSON().forEach(function(trip){
-        if(tripDate.isBetween(moment(trip.startDate), moment(trip.endDate))){
+    tripsColl.each(function(trip){
+        if(tripDate.isBetween(moment(trip.attributes.startDate), moment(trip.attributes.endDate))){
             overlap = trip.id;
         }
     });
@@ -200,10 +256,10 @@ var freeDate = function(tripDate, returnTripId){
     // Check if 2 trips start/end on this date
     var tripStarts = false;
     var tripEnds = false;
-    tripsColl.toJSON().forEach(function(trip){
-        if(moment(trip.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+    tripsColl.each(function(trip){
+        if(moment(trip.attributes.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
             tripStarts = trip.id;
-        }else if(moment(trip.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+        }else if(moment(trip.attributes.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
             tripEnds = trip.id;
         }
     });
@@ -228,10 +284,10 @@ var freeDateRange = function(startDate, endDate){
     }
     
     var encapsulates = false;
-    tripsColl.toJSON().forEach(function(trip){
-        if(moment(trip.startDate).isBetween(startDate, endDate)){
+    tripsColl.each(function(trip){
+        if(moment(trip.attributes.startDate).isBetween(startDate, endDate)){
             encapsulates = true;
-        }else if(moment(trip.endDate).isBetween(startDate, endDate)){
+        }else if(moment(trip.attributes.endDate).isBetween(startDate, endDate)){
             encapsulates = true;
         }
     });
@@ -242,6 +298,15 @@ var freeDateRange = function(startDate, endDate){
     return true;
 }
 
+var duration = function(startDate, endDate){
+    // Returns the number of full days in a trip
+    
+    var tripDuration = moment.duration(startDate.diff(endDate));
+    tripDuration = (tripDuration.asDays() * -1)-1;
+    
+    return tripDuration;
+}
+
 // Init    
 
 // Load the trips collection
@@ -250,6 +315,11 @@ var tripsColl = new TripsCollection();
 // Draw trip form
 var tripForm = new TripFormView({
     el: $('#trip-modal'),
+    collection: tripsColl
+});
+
+var progressBar = new ProgressView({
+    el: $('#progress'),
     collection: tripsColl
 });
 
@@ -274,11 +344,13 @@ $('#calendar').calendar({
 // Update the calendar every time the trips collection changes
 tripsColl.on('change reset', function(){
     var tripsList = [];
-    this.toJSON().forEach(function(trip){
+    this.each(function(trip){
         tripsList.push({
-            country: _.find(COUNTRIES, {code: trip.country.toUpperCase()}).name,
-            startDate: moment(trip.startDate)._d,
-            endDate: moment(trip.endDate)._d
+            country: _.find(COUNTRIES, {
+                code: trip.attributes.country.toUpperCase()
+            }).name,
+            startDate: moment(trip.attributes.startDate)._d,
+            endDate: moment(trip.attributes.endDate)._d
         });
     });
     

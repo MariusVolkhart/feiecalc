@@ -41,11 +41,7 @@
                     </p>
                     
                     <!-- if trips.length > 1 -->
-                    <div class='progress'>
-                        <div class='progress-bar' role='progressbar' style='width: 72%'>
-                            291 / 330 days
-                        </div>
-                    </div>
+                    <div id='progress'></div>
                     
                     <div id='calendar'><center>Loading...</center></div>
                     
@@ -96,6 +92,16 @@
             <input type='hidden' data-field='trip-id'/>
             <input type='hidden' data-field='trip-start-date'/>
             <input type='hidden' data-field='trip-end-date'/>
+        </script>
+        
+        <script type='text/template' id='template-progress'>
+            <% if(dayCount > 40){ %>
+                <div class='progress'>
+                    <div class='progress-bar' role='progressbar' style='width: <%= progress %>%'>
+                        <%= dayCount %> / 330 days
+                    </div>
+                </div>
+            <% } %>
         </script>
         
         <!-- Bootstrap, jQuery, Moment, lodash, backbone from CDN -->
