@@ -129,9 +129,20 @@ var TripFormView = Backbone.View.extend({
         
         $('#trip-modal').modal('show');
     },
+
+    values: function(){
+        return {
+            id: this.$el.find('[data-field=trip-id]').val(),
+            country: this.$el.find('[data-field=trip-country]').val(),
+            startDate: safeDate(this.$el.find('[data-field=trip-start-date]').val()),
+            endDate: safeDate(this.$el.find('[data-field=trip-end-date]').val())
+        };
+    },
     
-    validate: function(values){
+    validate: function(){
         // Validate the trip details
+        
+        var values = this.values();
         
         if(!values.country){
             alert('Please select a country');
@@ -154,24 +165,21 @@ var TripFormView = Backbone.View.extend({
     
     saveTrip: function(){
         // Save the trip
-
-        var values = {
-            id: this.$el.find('[data-field=trip-id]').val(),
-            country: this.$el.find('[data-field=trip-country]').val(),
-            startDate: safeDate(this.$el.find('[data-field=trip-start-date]').val()),
-            endDate: safeDate(this.$el.find('[data-field=trip-end-date]').val())
-        };
         
         // Validate it first
-        if(!this.validate(values)){
+        if(!this.validate()){
             return;
         }
+        
+        var values = this.values();
         
         // Save the trip
         if(values.id){
             var thisTrip = tripsColl.get(values.id);
             thisTrip.set({
-                country: values.country
+                country: values.country,
+                startDate: values.startDate,
+                endDate: values.endDate
             });
             thisTrip.save();
         }else{
