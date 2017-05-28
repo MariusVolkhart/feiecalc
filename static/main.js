@@ -45,6 +45,7 @@ var ProgressView = Backbone.View.extend({
         
         // Count full days
         this.collection.each(function(trip){
+            
             var endDate = safeDate(trip.attributes.endDate);
             var startDate = safeDate(trip.attributes.startDate);
             var tripDuration = duration(startDate, endDate);
@@ -52,6 +53,7 @@ var ProgressView = Backbone.View.extend({
         });
         
         // Count travel days (which dont touch US)
+        // TODO Should we also search the opposite direction? what if first travel entry starts on range start date?
         this.collection.each(function(trip){
             var hasOnwardTrip = false;
             this.collection.each(function(trip2){

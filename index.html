@@ -38,15 +38,70 @@
                         <h3>FEIE Calc</h3>
                     </div>
                     
-                    <p class='lead'>
-                        A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging.
-                    </p>
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <p class='lead'>
+                                A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging, or clicking Add Trip.
+                            </p>
+                        </div>
+                        <div class='col-sm-5 hide'>
+                            <div class='well'>
+                                <h4>12 Month Period</h4>
+                                <div class='row'>
+                                    <div class='form-group col-sm-6'>
+                                        <input data-field='rangeStart' type='text' class='form-control' value='2017-01-01' />
+                                    </div>
+                                    <div class='form-group col-sm-6'>
+                                        <input data-field='rangeEnd' type='text' class='form-control' value='2018-01-01' disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <!-- if trips.length > 1 -->
                     <div id='progress'></div>
+                    
+                    <div class='actions-container'>
+                        <div class='pull-right'>
+                            <button data-action='addTrip' type='button' class='btn btn-primary'>Add Trip</button>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
                     
                     <div id='calendar'><center>Loading...</center></div>
                     
+                    <div class='pub-54'>
+
+                        <p>Below is an excerpt from page 15 of "2016 Publication 54", which is <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>located here</a>. It describes the physical presence test in great detail, with examples.</p>
+                        <div class='well'>
+                            <h4>Physical Presence Test</h4>
+                            <p>You meet the physical presence test if you are physically present in a foreign country or countries 330 full days during a period of 12 consecutive months. The 330 days don't have to be consecutive. Any U.S. citizen or resident alien can use the physical presence test to qualify for the exclusions and the deduction.</p>
+                            <p>The physical presence test is based only on how long you stay in a foreign country or countries. This test doesn't depend on the kind of residence you establish, your intentions about returning, or the nature and purpose of your stay abroad.</p>
+                            <p><strong>330 full days</strong>. Generally, to meet the physical presence test, you must be physically present in a foreign country or countries for at least 330 full days during a 12-month period. You can count days you spent abroad for any reason. You don't have to be in a foreign country only for employment purposes. You can be on vacation.</p>
+                            <p>You don't meet the physical presence test if illness, family problems, a vacation, or your employer's orders cause you to be present for less than the required amount of time.</p>
+                            <p><strong><em>Exception</em></strong>. You can be physically present in a foreign country or countries for less than 330 full days and still meet the physical presence test if you are required to leave a country because of war or civil unrest. See Waiver of Time Requirements, later.</p>
+                            <p><strong>Full day</strong>. A full day is a period of 24 consecutive hours, beginning at midnight.</p>
+                            <p><strong>Travel</strong>. When you leave the United States to go directly to a foreign country or when you return directly to the United States from a foreign country, the time you spend on or over international waters doesn't count toward the 330-day total.</p>
+                            <p><strong><em>Example</em></strong>. You leave the United States for France by air on June 10. You arrive in France at 9:00 a.m. on June 11. Your first full day of physical presence in France is June 12.</p>
+                            <p><strong><em>Passing over foreign country</em></strong>. If, in traveling from the United States to a foreign country, you pass over a foreign country before midnight of the day you leave, the first day you can count toward the 330-day total is the day following the day you leave the United States.</p>
+                            <p><strong><em>Example</em></strong>. You leave the United States by air at 9:30 a.m. on June 10 to travel to Kenya. You pass over western Africa at 11:00 p.m. on June 10 and arrive in Kenya at 12:30 a.m. on June 11. Your first full day in a foreign country is June 11.</p>
+                            <p><strong><em>Change of location</em></strong>. You can move about from one place to another in a foreign country or to another foreign country without losing full days. If any part of your travel is not within any foreign country and takes less than 24 hours, you are considered to be in a foreign country during that part of travel.</p>
+                            <p><strong><em>Example 1</em></strong>. You leave Ireland by air at 11:00 p.m. on July 6 and arrive in Sweden at 5:00 a.m. on July 7. Your trip takes less than 24 hours and you lose no full days.</p>
+                            <p><strong><em>Example 2</em></strong>. You leave Norway by ship at 10:00 p.m. on July 6 and arrive in Portugal at 6:00 a.m. on July 8. Since your travel isn't within a foreign country or countries and the trip takes more than 24 hours, you lose as full days July 6, 7, and 8. If you remain in Portugal, your next full day in a foreign country is July 9.</p>
+                            <p><strong><em>In United States while in transit</em></strong>. If you are in transit between two points outside the United States and are physically present in the United States for less than 24 hours, you aren't treated as present in the United States during the transit. You are treated as traveling over areas not within any foreign country.</p>
+                            <p><strong><em>How to figure the 12-month period</em></strong>. There are four rules you should know when figuring the 12-month period.</p>
+                            <ul>
+                                <li>Your 12-month period can begin with any day of the month. It ends the day before the same calendar day, 12 months later.</li>
+                                <li>Your 12-month period must be made up of consecutive months. Any 12-month period can be used if the 330 days in a foreign country fall within that period.</li>
+                                <li>You don't have to begin your 12-month period with your first full day in a foreign country or end it with the day you leave. You can choose the 12-month period that gives you the greatest exclusion.</li>
+                                <li>In determining whether the 12-month period falls within a longer stay in the foreign country, 12-month periods can overlap one another.</li>
+                            </ul>
+                            <p><strong><em>Example 1</em></strong>. You are a construction worker who works on and off in a foreign country over a 20-month period. You might pick up the 330 full days in a 12-month period only during the middle months of the time you work in the foreign country because the first few and last few months of the 20-month period are broken up by long visits to the United States.</p>
+                            <p><strong><em>Example 2</em></strong>. You work in New Zealand for a 20-month period from January 1, 2015, through August 31, 2016, except that you spend 28 days in February 2015 and 28 days in February 2016 on vacation in the United States. You are present in New Zealand for at least 330 full days during each of the following two 12-month periods: January 1, 2015 – December 31, 2015 and September 1, 2015 – August 31, 2016. By overlapping the 12-month periods in this way, you meet the physical presence test for the whole 20-month period. See Figure 4-B on the top of this page.</p>
+                        </div>
+                    
+                    </div>
                 </div>
             </div>
             

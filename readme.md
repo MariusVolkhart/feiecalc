@@ -16,3 +16,6 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 ## Example Calculation
 
 ![FEIE Screenshot](http://i.imgur.com/iJsciGn.png)
+
+More info on page 15 https://www.irs.gov/pub/irs-pdf/p54.pdf
+
