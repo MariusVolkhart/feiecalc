@@ -1,0 +1,16 @@
+h3 {
+    margin: 20px 0px;
+}
+.actions-container {
+    margin-bottom: 15px;
+}
+.footer-text {
+    margin: 30px 0px 40px 0px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+.btn, .form-control {
+    border-radius: 0px;
+}
+

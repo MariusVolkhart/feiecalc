@@ -15,18 +15,8 @@
         
         <!-- Local Styles -->
         <link rel='stylesheet' href='/static/lib/bootstrap-year-calendar.min.css'>
+        <link rel='stylesheet' href='/static/style.css'>
         
-        <style type='text/css'>
-            .header {
-                margin: 20px 0px;
-            }
-            .footer-text {
-                margin: 30px 0px 40px 0px;
-                text-align: center;
-                font-size: 12px;
-                color: #888;
-            }
-        </style>
     </head>
     <body>
 
@@ -34,46 +24,39 @@
             <div class='row'>
                 <div class='col-md-10 col-md-offset-1'>
                     
-                    <div class='header'>
-                        <h3>FEIE Calc ✈️ 📋</h3>
+                    <!-- INTRO -->
+                    <h3>FEIE Calc ✈️🗓</h3>
+                    <p class='lead'>
+                        A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging, or clicking Add Trip.
+                    </p>
+                    
+                    <!-- PROGRESS BAR -->
+                    <div class='hide'>
+                        <div id='progress'></div>
                     </div>
                     
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <p class='lead'>
-                                A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging.
-                            </p>
-                        </div>
-                        <div class='col-sm-5 hide'>
-                            <div class='well'>
-                                <h4>12 Month Period</h4>
-                                <div class='row'>
-                                    <div class='form-group col-sm-6'>
-                                        <input data-field='rangeStart' type='text' class='form-control' value='2017-01-01' />
-                                    </div>
-                                    <div class='form-group col-sm-6'>
-                                        <input data-field='rangeEnd' type='text' class='form-control' value='2018-01-01' disabled/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- CAL ACTIONS -->
+                    <div class='actions-container text-right'>
+                        <button data-action='clearSampleData' type='button' class='btn btn-default'>Clear Sample Data</button>
+                        <button data-action='addTrip' type='button' class='btn btn-primary'>Add Trip</button>
                     </div>
                     
-                    <div id='progress'></div>
-                    
-                    <div class='actions-container hide'>
-                        <div class='pull-right'>
-                            <button data-action='addTrip' type='button' class='btn btn-primary'>Add Trip</button>
-                        </div>
-                        <br/>
-                        <br/>
-                    </div>
-                    
+                    <!-- CALENDAR -->
                     <div id='calendar'><center>Loading...</center></div>
                     
+                    <!-- SETTINGS -->
+                    <h3>Settings</h3>
+                    <div class='row settings-container'></div>
+                    
+                    <!-- RESULTS -->
+                    <h3>Physical Presence Test Results</h3>
+                    <p>Test Results Here!</p>
+                    
+                    <!-- PUB 54 -->
                     <div class='pub-54'>
+                        <h3>Publication 54 (2016)</h3>
 
-                        <p>Below is an excerpt from page 15 of "2016 Publication 54", which is <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>located here</a>. It describes the physical presence test in great detail, with examples.</p>
+                        <p>Below is an excerpt from page 15 of "2016 Publication 54", which can be found <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>here</a>. It describes the physical presence test in great detail, with examples.</p>
                         <div class='well'>
                             <h4>Physical Presence Test</h4>
                             <p>You meet the physical presence test if you are physically present in a foreign country or countries 330 full days during a period of 12 consecutive months. The 330 days don't have to be consecutive. Any U.S. citizen or resident alien can use the physical presence test to qualify for the exclusions and the deduction.</p>
@@ -158,6 +141,17 @@
                         <input data-field='trip-end-date' type='text' class='form-control' placeholder='yyyy-mm-dd'/>
                     </div>
                 </div>
+            </div>
+        </script>
+        
+        <script type='text/template' id='template-settings'>
+            <div class='form-group col-sm-4'>
+                <label class='control-label'>12 Month Period Start Date</label>
+                <input data-field='rangeStart' type='text' class='form-control' value='<%= startDate %>' />
+            </div>
+            <div class='form-group col-sm-4'>
+                <label class='control-label'>End Date</label>
+                <input data-field='rangeEnd' type='text' class='form-control' value='<%= endDate %>' disabled/>
             </div>
         </script>
         

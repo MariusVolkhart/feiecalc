@@ -73,6 +73,40 @@ var ProgressView = Backbone.View.extend({
     
 });
 
+var SettingsView = Backbone.View.extend({
+    template: _.template($('#template-settings').html()),
+    
+    events: {
+        'change input[data-field=rangeStart]': function(e){
+            this.startDate = moment(e.target.value);
+            this.endDate = this.calcEndDate(this.startDate);
+            var newEndDate = this.endDate.format('YYYY-MM-DD');
+            this.$el.find('input[data-field=rangeEnd]').val(newEndDate);
+        }
+    },
+    
+    initialize: function(options){
+        this.startDate = moment('2017-01-01');
+        this.endDate = this.calcEndDate(this.startDate);
+        this.render();
+    },
+    
+    render: function(){
+        this.$el.html(this.template({
+            startDate: this.startDate.format('YYYY-MM-DD'),
+            endDate: this.endDate.format('YYYY-MM-DD')
+        }));
+    },
+    
+    calcEndDate: function(startDate){
+        // Doing this so we don't ref the original val
+        var sd = moment(startDate.format('YYYY-MM-DD'))
+        sd.add(1, 'years');
+        sd.subtract(1, 'days');
+        return sd;
+    }
+});
+
 var TripFormView = Backbone.View.extend({
     template: _.template($('#template-trip-form').html()),
     
@@ -217,18 +251,18 @@ var TripFormView = Backbone.View.extend({
 
 // Load the trips collection
 var tripsColl = new TripsCollection();
-
-// Draw trip form
 var tripForm = new TripFormView({
     el: $('#trip-modal'),
     collection: tripsColl
 });
-
-// Draw progress bar
 var progressBar = new ProgressView({
     el: $('#progress'),
     collection: tripsColl
 });
+var settingsView = new SettingsView({
+    el: $('.settings-container')
+});
+
 
 // Init Calendar
 var currentYear = new Date().getFullYear();
