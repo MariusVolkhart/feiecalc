@@ -5,17 +5,15 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 ## Tasks
 
 - [ ] Clean up timezones / hours. Calendar library doesn't like UTC, though.
-- [ ] Support custom 12-month period ranges (not calendar year)
-- [ ] Support more than 1 12-month period (currently all trips are calculated)
 - [ ] Help user visualize ideal 12-month period with their trips
 - [ ] Edge case: Flying across intl date line (depart Jan-5, land Jan-4)
 - [ ] Figure out which countries/territories don't count as "foreign"
-- [ ] Clean up "is same date" comparisons
-- [ ] Allow trips across years (currently can't select pre-Jan1)
 
 ## Example Calculation
 
 ![FEIE Screenshot](http://i.imgur.com/iJsciGn.png)
 
 More info on page 15 https://www.irs.gov/pub/irs-pdf/p54.pdf
+
+Assumptions we make: If your trip starts on day 1 and ends on day 2, we will assume the total travel time is less than 24 hours. If you are traveling east, your travel could end on the next day but be greater than 24 hours. It is a grey area according to pub54
 

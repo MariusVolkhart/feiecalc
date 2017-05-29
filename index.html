@@ -30,11 +30,6 @@
                         A <a href='https://www.irs.gov/instructions/i2555/ch02.html#d0e275'>Physical Presence Test</a> calculator for the <a href='https://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>US Foreign Earned Income Tax Exemption</a>. Begin by selecting a date on the calendar and dragging, or clicking Add Trip.
                     </p>
                     
-                    <!-- PROGRESS BAR -->
-                    <div class='hide'>
-                        <div id='progress'></div>
-                    </div>
-                    
                     <!-- CAL ACTIONS -->
                     <div class='actions-container text-right'>
                         <button data-action='clearSampleData' type='button' class='btn btn-default'>Clear Sample Data</button>
@@ -44,20 +39,31 @@
                     <!-- CALENDAR -->
                     <div id='calendar'><center>Loading...</center></div>
                     
-                    <!-- SETTINGS -->
-                    <h3>Settings</h3>
-                    <div class='row settings-container'></div>
-                    
-                    <!-- RESULTS -->
-                    <h3>Physical Presence Test Results</h3>
-                    <p>Test Results Here!</p>
+                    <div class='row'>
+                        <div class='col-sm-7'>
+                            
+                            <!-- RESULTS -->
+                            <h3>📋 Physical Presence Test Results</h3>
+                            <div class='results-container'></div>
+                            
+                        </div>
+                        <div class='col-sm-5'>
+                            
+                            <!-- SETTINGS -->
+                            <div class='alert alert-info settings-well'>
+                                <h4>🛠 &nbsp;Range Settings</h4>
+                                <div class='row settings-container'></div>
+                            </div>
+                            
+                        </div>
+                    </div>
                     
                     <!-- PUB 54 -->
                     <div class='pub-54'>
-                        <h3>Publication 54 (2016)</h3>
+                        <h3>📚 Publication 54 (2016)</h3>
 
-                        <p>Below is an excerpt from page 15 of "2016 Publication 54", which can be found <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>here</a>. It describes the physical presence test in great detail, with examples.</p>
-                        <div class='well'>
+                        <p>Below is an excerpt from page 15 of "2016 Publication 54", which can be found <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>here</a>. It describes the physical presence test in great detail, and includes multiple examples.</p>
+                        <div class='alert alert-info'>
                             <h4>Physical Presence Test</h4>
                             <p>You meet the physical presence test if you are physically present in a foreign country or countries 330 full days during a period of 12 consecutive months. The 330 days don't have to be consecutive. Any U.S. citizen or resident alien can use the physical presence test to qualify for the exclusions and the deduction.</p>
                             <p>The physical presence test is based only on how long you stay in a foreign country or countries. This test doesn't depend on the kind of residence you establish, your intentions about returning, or the nature and purpose of your stay abroad.</p>
@@ -144,22 +150,48 @@
             </div>
         </script>
         
-        <script type='text/template' id='template-settings'>
-            <div class='form-group col-sm-4'>
-                <label class='control-label'>12 Month Period Start Date</label>
-                <input data-field='rangeStart' type='text' class='form-control' value='<%= startDate %>' />
+        <script type='text/template' id='template-results'>
+    
+            <div class='progress'>
+                <div class='progress-bar progress-bar-<%=(passed)?'success':'danger' %>' style='width: <%= progress %>%;'>
+                    <%= totalDays %> / <%= targetDays %> days
+                </div>
             </div>
-            <div class='form-group col-sm-4'>
-                <label class='control-label'>End Date</label>
-                <input data-field='rangeEnd' type='text' class='form-control' value='<%= endDate %>' disabled/>
-            </div>
+            
+            <% if(passed){ %>
+                <h4>✅ &nbsp;Test Passed</h4>
+            <% }else{ %>
+                <h4>🔴 &nbsp;Test Failed</h4>
+            <% } %>
+            <%= totalDays %> total days outside the US
+            
+            <br/>
+            <br/>
+            
+            <h4>🌏 &nbsp;<%= fullDays %> full days in other countries</h4>
+            <table class='table table-striped table-condensed'>
+                <tbody>
+                    <% countryDays.forEach(function(thisCountry){ %>
+                        <tr>
+                            <td><%= thisCountry.country %></td>
+                            <td><%= thisCountry.days %> full days</td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            
+            <h4>✈️ &nbsp;Plus <%= transitDays %> valid transit days</h4>
+            
         </script>
         
-        <script type='text/template' id='template-progress'>
-            <div class='progress'>
-                <div class='progress-bar' role='progressbar' style='width: <%= progress %>%; min-width: 100px;'>
-                    <%= dayCount %> / <%= targetCount %> days
-                </div>
+        <script type='text/template' id='template-settings'>
+            <div class='form-group col-sm-6'>
+                <label class='control-label'>Start Date</label>
+                <input data-field='rangeStart' type='text' class='form-control' value='<%= startDate %>' />
+            </div>
+            <div class='form-group col-sm-6'>
+                <label class='control-label'>End Date</label>
+                <input data-field='rangeEnd' type='text' class='form-control' value='<%= endDate %>' disabled/>
             </div>
         </script>
         

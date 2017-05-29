@@ -1,5 +1,8 @@
 var TARGET_COUNT = 330;
 
+var START_DATE = moment('2017-01-01');
+var END_DATE = null;
+
 // Models
 var TripModel = Backbone.Model.extend();
 
@@ -13,88 +16,27 @@ var TripsCollection = Backbone.Collection.extend({
 });
 
 
-// Views
-var ProgressView = Backbone.View.extend({
-    template: _.template($('#template-progress').html()),
-    
-    initialize: function(){
-        this.collection.on('change reset', this.render.bind(this));
-    },
-    
-    render: function(){
-        var dayCount = this.calculateDayCount();
-        var progress = Math.round(dayCount/TARGET_COUNT*100);
-        if(progress>100){
-            progress = 100;
-        }
-        this.$el.html(this.template({
-            dayCount: dayCount,
-            targetCount: TARGET_COUNT,
-            progress: progress
-        }));
-    },
-    
-    calculateDayCount: function(){
-        // To calculate the day count, we will first count the number
-        // of full days in all trips, then we will add one for all
-        // days which have the end & beginning of a trip (travel day)
-        // since these travel days are not crossing into the US.
-        // This may need to be modified in the future.
-        
-        var dayCount = 0;
-        
-        // Count full days
-        this.collection.each(function(trip){
-            
-            var endDate = safeDate(trip.attributes.endDate);
-            var startDate = safeDate(trip.attributes.startDate);
-            var tripDuration = duration(startDate, endDate);
-            dayCount += tripDuration;
-        });
-        
-        // Count travel days (which dont touch US)
-        // TODO Should we also search the opposite direction? what if first travel entry starts on range start date?
-        this.collection.each(function(trip){
-            var hasOnwardTrip = false;
-            this.collection.each(function(trip2){
-                var tripEnd = safeDate(trip.attributes.endDate);
-                var trip2Start = safeDate(trip2.attributes.startDate);
-                if(trip2Start.format('YYYY-MM-DD') == tripEnd.format('YYYY-MM-DD')){
-                    hasOnwardTrip = true;
-                }
-            });
-            if(hasOnwardTrip){
-                dayCount += 1;
-            }
-        }.bind(this));
-        
-        return dayCount;
-    }
-    
-});
-
 var SettingsView = Backbone.View.extend({
     template: _.template($('#template-settings').html()),
     
     events: {
         'change input[data-field=rangeStart]': function(e){
-            this.startDate = moment(e.target.value);
-            this.endDate = this.calcEndDate(this.startDate);
-            var newEndDate = this.endDate.format('YYYY-MM-DD');
+            START_DATE = moment(e.target.value);
+            END_DATE = this.calcEndDate(START_DATE);
+            var newEndDate = END_DATE.format('YYYY-MM-DD');
             this.$el.find('input[data-field=rangeEnd]').val(newEndDate);
         }
     },
     
     initialize: function(options){
-        this.startDate = moment('2017-01-01');
-        this.endDate = this.calcEndDate(this.startDate);
+        END_DATE = this.calcEndDate(START_DATE);
         this.render();
     },
     
     render: function(){
         this.$el.html(this.template({
-            startDate: this.startDate.format('YYYY-MM-DD'),
-            endDate: this.endDate.format('YYYY-MM-DD')
+            startDate: START_DATE.format('YYYY-MM-DD'),
+            endDate: END_DATE.format('YYYY-MM-DD')
         }));
     },
     
@@ -104,6 +46,53 @@ var SettingsView = Backbone.View.extend({
         sd.add(1, 'years');
         sd.subtract(1, 'days');
         return sd;
+    }
+});
+
+var ResultsView = Backbone.View.extend({
+    template: _.template($('#template-results').html()),
+    
+    events: {},
+    
+    initialize: function(options){
+        this.collection.on('change reset', this.render.bind(this));
+    },
+    
+    render: function(){
+        
+        // Get Results
+        var rawResults = generateTravelResults(START_DATE, END_DATE);
+        
+        // Build country days list
+        var fullDays = 0;
+        var countryDays = [];
+        _.keys(rawResults.countries).forEach(function(countryCode){
+            countryDays.push({
+                country: countryByCode(countryCode),
+                days: rawResults.countries[countryCode]
+            });
+            fullDays += rawResults.countries[countryCode];
+        });
+        countryDays = _.sortBy(countryDays, 'days').reverse();
+        
+        var transitDays = rawResults.transitDays;
+        var totalDays = fullDays + transitDays;
+ 
+        // Progress Bar
+        var progress = Math.round(totalDays/TARGET_COUNT*100);
+        if(progress>100){
+            progress = 100;
+        }
+        
+        this.$el.html(this.template({
+            passed: (totalDays>=TARGET_COUNT),
+            countryDays: countryDays,
+            fullDays: fullDays,
+            transitDays: transitDays,
+            totalDays: totalDays,
+            targetDays: TARGET_COUNT,
+            progress: progress
+        }));
     }
 });
 
@@ -255,12 +244,12 @@ var tripForm = new TripFormView({
     el: $('#trip-modal'),
     collection: tripsColl
 });
-var progressBar = new ProgressView({
-    el: $('#progress'),
-    collection: tripsColl
-});
 var settingsView = new SettingsView({
     el: $('.settings-container')
+});
+var resultsView = new ResultsView({
+    el: $('.results-container'),
+    collection: tripsColl
 });
 
 

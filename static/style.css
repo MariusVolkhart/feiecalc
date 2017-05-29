@@ -1,16 +1,41 @@
+/* new primary 2c8fc9 */
+
 h3 {
     margin: 20px 0px;
 }
 .actions-container {
     margin-bottom: 15px;
 }
+
+#calendar {
+    margin-bottom: 50px;
+}
+
+.settings-well h4 {
+    margin-top: 0px;
+}
+
+.pub-54 {
+    margin-top: 50px;
+}
+
 .footer-text {
     margin: 30px 0px 40px 0px;
     text-align: center;
     font-size: 12px;
     color: #888;
 }
-.btn, .form-control {
+
+/* Overrides */
+.btn, .form-control, .well, .progress, .alert {
     border-radius: 0px;
+}
+.form-control {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.progress-bar {
+    min-width: 100px;
 }
 

@@ -1,7 +1,11 @@
 // Utilities
 
+var DF = 'YYYY-MM-DD';
+
 var freeDate = function(tripDate, returnTripId){
     // Check whether a date is occupied by an existing trip
+    // Takes tripDate (moment obj)
+    // Returns true/false or a trip id (2nd arg setting)
     
     // Check for overlap
     var overlap = false;
@@ -23,15 +27,16 @@ var freeDate = function(tripDate, returnTripId){
     var tripStarts = false;
     var tripEnds = false;
     tripsColl.each(function(trip){
-        if(safeDate(trip.attributes.startDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+        if(safeDate(trip.attributes.startDate).format(DF) == tripDate.format(DF)){
             tripStarts = trip.id;
-        }else if(safeDate(trip.attributes.endDate).format('YYYY-MM-DD') == tripDate.format('YYYY-MM-DD')){
+        }else if(safeDate(trip.attributes.endDate).format(DF) == tripDate.format(DF)){
             tripEnds = trip.id;
         }
     });
     
     if(tripStarts && tripEnds){
         if(returnTripId){
+            // TODO Return a list of start and end trips
             return tripStarts;
         }else{
             return false;
@@ -77,7 +82,75 @@ var duration = function(startDate, endDate){
 }
 
 var safeDate = function(dateStr){
+    // Revert a date to midnight
     return moment(dateStr).startOf('day');
+}
+
+var generateTravelResults = function(rangeStart, rangeEnd){
+    // Return an object describing the trips during the given range
+    
+    var SAFE_LIMIT = 900;
+    
+    var results = {
+        countries: {},
+        transitDays: 0
+    };
+    
+    // Count all the full days in another country
+    
+    var dateCounter = moment(rangeStart.format(DF));
+    var rangeEndPlusOne = moment(rangeEnd.format(DF)).add(1, 'days');
+    while(!dateCounter.isSame(rangeEndPlusOne) && SAFE_LIMIT){
+        SAFE_LIMIT--;
+        
+        // Continue if a trip doesn't exist on this date
+        var existingTrip = freeDate(dateCounter, true);
+        
+        // Increment date counter
+        dateCounter.add(1, 'days');
+        
+        if(!existingTrip){
+            continue;
+        }
+        
+        // Prepare country details
+        var thisTrip = tripsColl.get(existingTrip);
+        var thisTripCo = thisTrip.get('country');
+        
+        // Skip USA
+        if(thisTripCo == 'us'){
+            continue;
+        }
+        
+        // Add the counter for this country if it doesnt exist
+        if(!results.countries[thisTripCo]){
+            results.countries[thisTripCo] = 0;
+        }
+        
+        // Add 1
+        results.countries[thisTripCo]++;
+        
+    }
+    
+    // Count all valid transit days
+    // Transit day = leave one country and enter another within 24 hours
+    // TODO Only count trips within the travel range
+    tripsColl.each(function(trip){
+        var hasOnwardTrip = false;
+        tripsColl.each(function(trip2){
+            var tripEnd = safeDate(trip.attributes.endDate);
+            var trip2Start = safeDate(trip2.attributes.startDate);
+            if(trip2Start.format('YYYY-MM-DD') == tripEnd.format('YYYY-MM-DD')){
+                hasOnwardTrip = true;
+            }
+        });
+        if(hasOnwardTrip){
+            results.transitDays ++;
+        }
+    }.bind(this));
+    
+    return results;
+    
 }
 
 var mouseOnTrip = function(e){
@@ -113,5 +186,11 @@ var mouseOnTrip = function(e){
         
         $(e.element).popover('show');
     }
+}
+
+var countryByCode = function(code){
+    return _.find(COUNTRIES, {
+        code: code.toUpperCase()
+    }).name;
 }
 
