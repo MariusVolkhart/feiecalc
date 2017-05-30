@@ -82,6 +82,11 @@ var duration = function(startDate, endDate){
     return tripDuration - 1;
 }
 
+var tripDuration = function(tripId){
+    // Return the # of full days in a trip
+    return 333;
+}
+
 var safeDate = function(dateStr){
     // Revert a date to midnight
     return moment(dateStr).startOf('day');
@@ -131,7 +136,7 @@ var generateTravelResults = function(rangeStart, rangeEnd){
             // 0 full day trip
             continue;
         }else{
-            // Revert our change
+            // Revert our change to tripSD var
             tripSD.subtract(1, 'day');
         }
         
@@ -210,9 +215,16 @@ var mouseOnTrip = function(e){
         var content = '';
         
         for(var i in e.events) {
-            var startDate =  safeDate(e.events[i].startDate);
+            var startDate = safeDate(e.events[i].startDate);
             var endDate =  safeDate(e.events[i].endDate);
+            
+            //console.log('--');
+            //console.log(startDate._d)
+            //console.log(endDate._d);
+            
             var tripDuration = duration(startDate, endDate);
+            
+            //console.log(tripDuration);
             
             content += '\
                 <div class="event-tooltip-content">\
@@ -230,7 +242,7 @@ var mouseOnTrip = function(e){
         $(e.element).popover({ 
             trigger: 'manual',
             container: 'body',
-            html:true,
+            html: true,
             content: content
         });
         
