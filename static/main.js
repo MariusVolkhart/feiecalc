@@ -25,6 +25,7 @@ var SettingsView = Backbone.View.extend({
             END_DATE = this.calcEndDate(START_DATE);
             var newEndDate = END_DATE.format('YYYY-MM-DD');
             this.$el.find('input[data-field=rangeEnd]').val(newEndDate);
+            tripsColl.trigger('change');
         }
     },
     
