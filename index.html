@@ -141,13 +141,13 @@
                 <div class='col-sm-6'>
                     <div class='form-group'>
                         <label class='control-label'>Arrival Date</label>
-                        <input data-field='trip-start-date' type='text' class='form-control' placeholder='yyyy-mm-dd'/>
+                        <input data-field='trip-start-date' type='date' class='form-control' placeholder='yyyy-mm-dd'/>
                     </div>
                 </div>
                 <div class='col-sm-6'>
                     <div class='form-group'>
                         <label class='control-label'>Departure Date</label>
-                        <input data-field='trip-end-date' type='text' class='form-control' placeholder='yyyy-mm-dd'/>
+                        <input data-field='trip-end-date' type='date' class='form-control' placeholder='yyyy-mm-dd'/>
                     </div>
                 </div>
             </div>
@@ -190,11 +190,11 @@
         <script type='text/template' id='template-settings'>
             <div class='form-group col-sm-6'>
                 <label class='control-label'>Start Date</label>
-                <input data-field='rangeStart' type='text' class='form-control' value='<%= startDate %>' />
+                <input data-field='rangeStart' type='date' class='form-control' value='<%= startDate %>' />
             </div>
             <div class='form-group col-sm-6'>
                 <label class='control-label'>End Date</label>
-                <input data-field='rangeEnd' type='text' class='form-control' value='<%= endDate %>' disabled/>
+                <input data-field='rangeEnd' type='date' class='form-control' value='<%= endDate %>' disabled/>
             </div>
         </script>
         
