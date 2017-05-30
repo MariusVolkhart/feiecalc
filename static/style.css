@@ -3,6 +3,13 @@
 h3 {
     margin: 20px 0px;
 }
+.builtby {
+    margin-top: 12px;
+}
+.builtby h4 {
+    font-weight: 400;
+    font-size: 18px;
+}
 .actions-container {
     margin-bottom: 15px;
 }

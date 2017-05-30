@@ -1,3 +1,5 @@
+'use strict';
+
 var TARGET_COUNT = 330;
 
 var START_DATE = moment('2017-01-01');
