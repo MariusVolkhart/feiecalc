@@ -4,6 +4,7 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 
 ## Tasks
 
+- [ ] Fix bug with trip ending 10th, trip starting 11th, and then adding trip from 10th to 11th (overnight in 1 country)
 - [ ] Clean up timezones / hours. Calendar library doesn't like UTC, though.
 - [ ] Help user visualize ideal 12-month period with their trips
 - [ ] Edge case: Flying across intl date line (depart Jan-5, land Jan-4)
