@@ -34,6 +34,7 @@ var freeDate = function(tripDate, returnTripId){
         }
     });
     
+    // If a trip starts and ends on this date, a new trip cant start or end here
     if(tripStarts && tripEnds){
         if(returnTripId){
             // TODO Return a list of start and end trips
@@ -43,7 +44,7 @@ var freeDate = function(tripDate, returnTripId){
         }
     }
     
-    // What...
+    // TODO Figure out what this should actually be
     if(returnTripId){ return false; }
     return true;
 }
@@ -122,6 +123,12 @@ var generateTravelResults = function(rangeStart, rangeEnd){
             continue;
         }
         
+        // Skip 0 full day trips
+        if(moment(thisTrip.get('startDate')).add(1, 'day').isSame(moment(thisTrip.get('endDate')), 'day')){
+            // 0 full day trip
+            continue;
+        }
+        
         // Add the counter for this country if it doesnt exist
         if(!results.countries[thisTripCo]){
             results.countries[thisTripCo] = 0;
@@ -134,19 +141,50 @@ var generateTravelResults = function(rangeStart, rangeEnd){
     
     // Count all valid transit days
     // Transit day = leave one country and enter another within 24 hours
-    // TODO Only count trips within the travel range
+    // We do this by checking 
     tripsColl.each(function(trip){
         var hasOnwardTrip = false;
+        var tripEnd = safeDate(trip.get('endDate'));
+        
+        // If end date isn't within period range, skip
+        if(!tripEnd.isBetween(rangeStart, rangeEnd, 'day', '[]')){
+            // [] means include start and end dates
+            return;
+        }
+        
+        // Look for another trip with start date as same day or next day
         tripsColl.each(function(trip2){
-            var tripEnd = safeDate(trip.attributes.endDate);
-            var trip2Start = safeDate(trip2.attributes.startDate);
-            if(trip2Start.format('YYYY-MM-DD') == tripEnd.format('YYYY-MM-DD')){
+            var trip2Start = safeDate(trip2.get('startDate'));
+            
+            // If End date of this trip is equal to start date of another trip
+            if(trip2Start.isSame(tripEnd, 'day')){
                 hasOnwardTrip = true;
             }
         });
+        
+        // Found another trip with start date = this trips end date
         if(hasOnwardTrip){
             results.transitDays ++;
+            return;
         }
+
+        // Look for another trip with start date = this trips end date +1day (overnight travel)
+        tripsColl.each(function(trip2){
+            var trip2Start = safeDate(trip2.get('startDate'));
+            trip2Start.subtract(1, 'day');
+            
+            // If End date of this trip is equal to start date (-1) of another trip
+            if(trip2Start.isSame(tripEnd, 'day')){
+                hasOnwardTrip = true;
+            }
+        });
+        
+        // Found another trip with start date = this trips end date
+        if(hasOnwardTrip){
+            results.transitDays ++;
+            return;
+        }
+        
     }.bind(this));
     
     return results;
