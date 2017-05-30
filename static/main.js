@@ -145,8 +145,10 @@ var TripFormView = Backbone.View.extend({
             startDate = safeDate(existingTrip.attributes.startDate);
             endDate = safeDate(existingTrip.attributes.endDate);
         }else{
+            // New Trip
             this.$el.find('.delete-trip').hide();
             this.$el.find('[data-field=trip-id]').val('');
+            this.$el.find('[data-field=trip-country]').val('').selectpicker('refresh');
         }
         
         this.$el.find('[data-field=trip-start-date]').val(startDate.format('YYYY-MM-DD'));
@@ -184,6 +186,13 @@ var TripFormView = Backbone.View.extend({
             return false;
         }
         
+        if(values.endDate.isBefore(values.startDate)){
+            alert('End date must come after start date');
+            return false;
+        }
+        
+        // Does this trip overlap with another trip ?
+        // TODO
         
         return true;
     },

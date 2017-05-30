@@ -123,9 +123,20 @@ var generateTravelResults = function(rangeStart, rangeEnd){
             continue;
         }
         
+        var tripSD = moment(thisTrip.get('startDate'));
+        var tripED = moment(thisTrip.get('endDate'));
+        
         // Skip 0 full day trips
-        if(moment(thisTrip.get('startDate')).add(1, 'day').isSame(moment(thisTrip.get('endDate')), 'day')){
+        if(tripSD.add(1, 'day').isSame(tripED, 'day')){
             // 0 full day trip
+            continue;
+        }else{
+            // Revert our change
+            tripSD.subtract(1, 'day');
+        }
+        
+        // Skip if trip starts or ends on this day
+        if(dateCounter.isSame(tripSD, 'day') || dateCounter.isSame(tripED, 'day')){
             continue;
         }
         
@@ -179,9 +190,10 @@ var generateTravelResults = function(rangeStart, rangeEnd){
             }
         });
         
-        // Found another trip with start date = this trips end date
+        // Found another trip with start date = this trips end date (but a day after)
+        // That means we add 2 transit days
         if(hasOnwardTrip){
-            results.transitDays ++;
+            results.transitDays += 2;
             return;
         }
         
