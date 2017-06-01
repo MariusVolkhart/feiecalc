@@ -256,3 +256,18 @@ var countryByCode = function(code){
     }).name;
 }
 
+var bootstrapAppData = function(tripsColl, settingsColl){
+    // This generally runs the first time the app loads
+    
+    var rangePeriod = new Backbone.Model({
+        settingKey: 'range',
+        startDate: '2017-01-01',
+        endDate: '2017-12-31'
+    });
+    
+    settingsColl.add(rangePeriod);
+    
+    rangePeriod.save();
+    
+}
+

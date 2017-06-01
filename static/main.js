@@ -17,38 +17,82 @@ var TripsCollection = Backbone.Collection.extend({
     
 });
 
+var SettingsCollection = Backbone.Collection.extend({
+    localStorage: new Backbone.LocalStorage('settings'),
+    
+    _getRangeModel: function(){
+        return this.find(function(model) { return model.get('settingKey') === 'range' });
+    },
+    
+    setRange: function(startDate){
+        var rangeModel = this._getRangeModel();
+        if(!rangeModel){ return false; }
+        
+        var rangeED = moment(startDate);
+        rangeED.add(1, 'years');
+        rangeED.subtract(1, 'days');
+        
+        rangeModel.set({
+            startDate: moment(startDate).format(DF),
+            endDate: rangeED.format(DF)
+        });
+        rangeModel.save();
+        
+        return this.getRange();
+    },
+    
+    getRange: function(){
+        var rangeModel = this._getRangeModel();
+        if(!rangeModel){ return false; }
+        
+        return {
+            startDate: rangeModel.get('startDate'),
+            endDate: rangeModel.get('endDate')
+        }
+    }
+    
+});
 
+
+// Views
 var SettingsView = Backbone.View.extend({
     template: _.template($('#template-settings').html()),
     
     events: {
         'change input[data-field=rangeStart]': function(e){
-            START_DATE = moment(e.target.value);
-            END_DATE = this.calcEndDate(START_DATE);
-            var newEndDate = END_DATE.format('YYYY-MM-DD');
-            this.$el.find('input[data-field=rangeEnd]').val(newEndDate);
-            tripsColl.trigger('change');
+            
+            // Update the range with the new values
+            var newSD = moment(e.target.value);
+            if(!newSD.isValid()){ return }
+            var newRange = this.settingsColl.setRange(newSD.format(DF));
+            
+            this.range = newRange;
+            var rangeEndEl = this.$el.find('input[data-field=rangeEnd]');
+            rangeEndEl.val(this.range.endDate);
+            
+            this.render();
+            
+            //tripsColl.trigger('change');
         }
     },
     
     initialize: function(options){
-        END_DATE = this.calcEndDate(START_DATE);
-        this.render();
+        this.settingsColl = options.settingsColl;
+        this.range = this.settingsColl.getRange();
+        
+        this.settingsColl.on('change reset', this.render.bind(this));
     },
     
     render: function(){
+        this.range = this.settingsColl.getRange();
+        
+        if(!this.range){
+            return;
+        }
         this.$el.html(this.template({
-            startDate: START_DATE.format('YYYY-MM-DD'),
-            endDate: END_DATE.format('YYYY-MM-DD')
+            startDate: moment(this.range.startDate).format(DF),
+            endDate: moment(this.range.endDate).format(DF)
         }));
-    },
-    
-    calcEndDate: function(startDate){
-        // Doing this so we don't ref the original val
-        var sd = moment(startDate.format('YYYY-MM-DD'))
-        sd.add(1, 'years');
-        sd.subtract(1, 'days');
-        return sd;
     }
 });
 
@@ -58,13 +102,18 @@ var ResultsView = Backbone.View.extend({
     events: {},
     
     initialize: function(options){
+        this.settingsColl = options.settingsColl;
+        
         this.collection.on('change reset', this.render.bind(this));
+        this.settingsColl.on('change reset', this.render.bind(this));
     },
     
     render: function(){
         
+        var range = this.settingsColl.getRange();
+        
         // Get Results
-        var rawResults = generateTravelResults(START_DATE, END_DATE);
+        var rawResults = generateTravelResults(moment(range.startDate), moment(range.endDate));
         
         // Build country days list
         var fullDays = 0;
@@ -251,17 +300,21 @@ var TripFormView = Backbone.View.extend({
 // Init    
 
 // Load the trips collection
+var settingsColl = new SettingsCollection();
 var tripsColl = new TripsCollection();
+
 var tripForm = new TripFormView({
     el: $('#trip-modal'),
     collection: tripsColl
 });
 var settingsView = new SettingsView({
-    el: $('.settings-container')
+    el: $('.settings-container'),
+    settingsColl: settingsColl
 });
 var resultsView = new ResultsView({
     el: $('.results-container'),
-    collection: tripsColl
+    collection: tripsColl,
+    settingsColl: settingsColl
 });
 
 
@@ -303,5 +356,10 @@ tripsColl.on('change reset', function(){
 
 // Load trips data
 // Note: This triggers everything to redraw (change/reset events fired)
-tripsColl.fetch({ reset: true });
+settingsColl.fetch({ reset: true, success: function(){
+    if(!settingsColl.length){
+        bootstrapAppData(tripsColl, settingsColl);
+    }
+    tripsColl.fetch({ reset: true });
+}});
 
