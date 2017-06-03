@@ -58,18 +58,21 @@ var SettingsView = Backbone.View.extend({
     events: {
         'change input[data-field=rangeStart]': function(e){
             
-            // Update the range with the new values
-            var newSD = moment(e.target.value);
-            if(!newSD.isValid()){ return }
-            var newRange = this.settingsColl.setRange(newSD.format(DF));
+            setTimeout(function(){
             
-            this.range = newRange;
-            var rangeEndEl = this.$el.find('input[data-field=rangeEnd]');
-            rangeEndEl.val(this.range.endDate);
+                // Update the range with the new values
+                var newSD = moment(e.target.value);
+                if(!newSD.isValid()){ return }
+                var newRange = this.settingsColl.setRange(newSD.format(DF));
+                
+                this.range = newRange;
+                var rangeEndEl = this.$el.find('input[data-field=rangeEnd]');
+                rangeEndEl.val(this.range.endDate);
+                
+                this.render();
             
-            this.render();
+            }.bind(this), 250);
             
-            //tripsColl.trigger('change');
         }
     },
     
@@ -99,14 +102,19 @@ var ResultsView = Backbone.View.extend({
     events: {},
     
     initialize: function(options){
+        this.tripsColl = options.tripsColl;
         this.settingsColl = options.settingsColl;
         
-        this.collection.on('change reset', this.render.bind(this));
         this.settingsColl.on('change reset', this.render.bind(this));
+        
+        this.tripsColl.on('change reset', function(newModel){ 
+            if(newModel && newModel.get('sampleTrip')){ return }
+            this.render();
+        }.bind(this));
+        
     },
     
     render: function(){
-        
         var range = this.settingsColl.getRange();
         
         // Get Results
@@ -310,7 +318,7 @@ var settingsView = new SettingsView({
 });
 var resultsView = new ResultsView({
     el: $('.results-container'),
-    collection: tripsColl,
+    tripsColl: tripsColl,
     settingsColl: settingsColl
 });
 
@@ -336,7 +344,9 @@ $('#calendar').calendar({
 });
 
 // Update the calendar every time the trips collection changes
-tripsColl.on('change reset', function(){
+tripsColl.on('change reset', function(newModel){
+    if(newModel && newModel.get('sampleTrip')){ return }
+    
     var tripsList = [];
     this.each(function(trip){
         tripsList.push({
