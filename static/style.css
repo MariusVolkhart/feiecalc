@@ -22,11 +22,13 @@
     background: rgba(255,255,255,0.7);
     padding: 15px;
     margin-bottom: 40px;
+    text-align: justify;
 }
 
 h3 {
     margin: 20px 0px;
 }
+
 .builtby {
     margin-top: 12px;
 }
