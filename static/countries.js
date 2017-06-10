@@ -231,6 +231,7 @@ var COUNTRIES = [
     { "name": "United Arab Emirates", "code": "AE" },
     { "name": "United Kingdom", "code": "GB" },
     { "name": "United States Minor Outlying Islands", "code": "UM" },
+    { "name": "United States of America", "code": "US" },
     { "name": "Uruguay", "code": "UY" },
     { "name": "Uzbekistan", "code": "UZ" },
     { "name": "Vanuatu", "code": "VU" },
