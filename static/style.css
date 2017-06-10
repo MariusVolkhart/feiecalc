@@ -1,5 +1,30 @@
 /* new primary 2c8fc9 */
 
+/* Header */
+.intro-container {
+    background: url('/static/header.jpg');
+    background-size: cover;
+    background-position: center top;
+    min-height: 315px;
+    margin-bottom: 15px;
+
+    box-shadow: inset 0px -50px 100px -41px #ABABAB;
+    -webkit-box-shadow: inset 0px -50px 100px -41px #ABABAB;
+    -moz-box-shadow: inset 0px -50px 100px -41px #ABABAB;
+    
+}
+
+.intro-container h2 {
+    margin-top: 50px;
+    margin-left: 15px;
+}
+.intro-container p {
+    font-size: 24px;
+    background: rgba(255,255,255,0.7);
+    padding: 15px;
+    margin-bottom: 40px;
+}
+
 h3 {
     margin: 20px 0px;
 }
@@ -38,7 +63,7 @@ h3 {
 }
 
 /* Overrides */
-.btn, .form-control, .well, .progress, .alert {
+.btn, .form-control, .well, .progress, .alert, .modal-content {
     border-radius: 0px;
 }
 .form-control {
