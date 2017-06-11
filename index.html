@@ -15,13 +15,13 @@
         
         <!-- Local Styles -->
         <link rel='stylesheet' href='/static/lib/bootstrap-year-calendar.min.css'>
-        <link rel='stylesheet' href='/static/style.css'>
+        <link rel='stylesheet' href='/static/css/style.css'>
         
     </head>
     <body>
         
         <!-- Intro -->
-        <div class='container-fluid intro-container'>
+        <div class='container-fluid section-intro'>
             <div class='container'>
                 <div class='row'>
                     <div class='col-md-10 col-md-offset-1'>
@@ -43,26 +43,32 @@
                     <div class='section-how-it-works'>
                         <h3>📕 How It Works</h3>
                         <p class='lead text-justify'>
-                            Simply put, the <a href='http://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>foreign earned income tax exclusion</a> (form 2555) allows citizens to exclude up to around $100,000 of foreign earned income if they meet various requirements. To qualify, you must be physically present in a foreign country for at least 330 <u>full days</u> during <u>any</u> 12-month period. There are a few exceptions and edge cases to watch out for, which this tool will help you catch. You can read an excerpt from the official rules <a href='#'>at the bottom of this page</a>.
+                            Simply put, the <a href='http://www.irs.gov/individuals/international-taxpayers/foreign-earned-income-exclusion'>foreign earned income tax exclusion</a> (form 2555) allows citizens to exclude up to around $100,000 of foreign earned income if they meet various requirements. To qualify, you must be physically present in a foreign country for at least 330 <u>full days</u> during <u>any</u> 12-month period. There are a few exceptions and edge cases to watch out for, which this tool will help you catch. You can read an excerpt from the official rules <a href='#pub-54'>at the bottom of this page</a>.
                         </p>
                     </div>
                     
                     <div class='section-cta alert alert-info'>
-                        <div class='row'>
-                            <div class='col-md-7'>
-                                <p class='lead'>Get notified of FEIE law changes and helpful resources.</p>
+                        <form action="//reustle.us7.list-manage.com/subscribe/post?u=7529e30edd60b5d1f5ba46e68&amp;id=61fa7cae49" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+                            <div class='row'>
+                                <div class='col-md-7'>
+                                    <p class='lead'>Get notified of FEIE law changes and other helpful info.</p>
+                                </div>
+                                <div class='col-md-3'>
+                                    <input type='text' class='form-control' placeholder='Email Address' name='EMAIL'/>
+                                </div>
+                                <div class='col-md-2'>
+                                    <input type='text' name='b_7529e30edd60b5d1f5ba46e68_61fa7cae49' tabindex='-1' value='' class='hide'>
+
+                                    <button type='submit' class='btn btn-primary form-control'>Subscribe</button>
+                                </div>
                             </div>
-                            <div class='col-md-3'>
-                                <input type='text' class='form-control' placeholder='Email Address'/>
-                            </div>
-                            <div class='col-md-2'>
-                                <button type='button' class='btn btn-primary form-control'>Subscribe</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
  
                     <div class='section-getting-started'>
-                        <h3>📋 Getting Started</h3>
+                        <img src='/static/img/drag.gif' align='right'/>
+                        <h3>🗓 Getting Started</h3>
                         <p class='lead text-justify'>
                             Start by filling in the calendar with each trip you took during the 12-month period you'd like to exclude. You'll find the physical presence test results below the calendar, along with some settings options.
                         </p>
@@ -91,7 +97,8 @@
                     </div>
                     
                     <!-- PUB 54 -->
-                    <div class='pub-54'>
+                    <div class='section-pub-54'>
+                        <a name='pub-54'></a>
                         <h3>📚 Publication 54 (2016)</h3>
 
                         <p>Below is an excerpt from page 15 of "2016 Publication 54", which can be found <a href='https://www.irs.gov/pub/irs-pdf/p54.pdf' target='_blank'>here</a>. It describes the physical presence test in great detail, and includes multiple examples.</p>

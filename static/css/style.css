@@ -1,0 +1,76 @@
+/* new primary 2c8fc9 */
+/* Sections */
+.section-intro {
+  background: url("/static/img/header.jpg");
+  background-size: cover;
+  background-position: center top;
+  min-height: 315px;
+  margin-bottom: 50px;
+  box-shadow: inset 0px -50px 100px -41px #ABABAB;
+  -webkit-box-shadow: inset 0px -50px 100px -41px #ABABAB;
+  -moz-box-shadow: inset 0px -50px 100px -41px #ABABAB; }
+  .section-intro h2 {
+    margin: 25px 15px; }
+  .section-intro p {
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    margin-bottom: 40px;
+    text-align: justify; }
+
+.section-how-it-works {
+  margin-bottom: 25px; }
+
+.section-cta {
+  margin-bottom: 70px; }
+  .section-cta p {
+    margin-top: 3px;
+    margin-bottom: 0px; }
+  .section-cta form {
+    margin-bottom: 0px; }
+
+.section-getting-started {
+  margin-bottom: 70px; }
+
+h3 {
+  margin: 20px 0px; }
+
+#calendar {
+  margin-bottom: 50px; }
+  #calendar .day {
+    cursor: pointer; }
+
+.settings-well h4 {
+  margin-top: 0px; }
+
+.results-container table {
+  font-size: 14px; }
+
+.section-pub-54 {
+  margin-top: 50px; }
+  .section-pub-54 .alert {
+    color: #696969;
+    line-height: 24px;
+    background-color: #eee;
+    border-color: #dadada; }
+    .section-pub-54 .alert p, .section-pub-54 .alert ul {
+      margin-bottom: 20px; }
+
+.footer-text {
+  margin: 30px 0px 40px 0px;
+  text-align: center;
+  font-size: 12px;
+  color: #888; }
+
+/* Overrides */
+.btn, .form-control, .well, .progress, .alert, .modal-content {
+  border-radius: 0px; }
+
+.form-control {
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+
+.progress-bar {
+  min-width: 100px; }
+
+/*# sourceMappingURL=style.css.map */
