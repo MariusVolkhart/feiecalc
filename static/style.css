@@ -1,4 +1,5 @@
 /* new primary 2c8fc9 */
+/* #ff5722 */
 
 /* Header */
 .intro-container {
@@ -6,7 +7,7 @@
     background-size: cover;
     background-position: center top;
     min-height: 315px;
-    margin-bottom: 15px;
+    margin-bottom: 50px;
 
     box-shadow: inset 0px -50px 100px -41px #ABABAB;
     -webkit-box-shadow: inset 0px -50px 100px -41px #ABABAB;
@@ -23,6 +24,20 @@
     padding: 15px;
     margin-bottom: 40px;
     text-align: justify;
+}
+
+.section-how-it-works {
+    margin-bottom: 25px;
+}
+.section-cta {
+    margin-bottom: 70px;
+}
+.section-cta .lead {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+.section-getting-started {
+    margin-bottom: 55px;
 }
 
 h3 {
@@ -54,6 +69,11 @@ h3 {
 
 .pub-54 {
     margin-top: 50px;
+}
+.pub-54 .alert {
+    color: '';
+    background-color: '';
+    border-color: '';
 }
 
 .footer-text {
