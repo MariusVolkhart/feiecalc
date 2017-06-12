@@ -365,6 +365,7 @@ tripsColl.on('change reset', function(newModel){
 // Note: This triggers everything to redraw (change/reset events fired)
 settingsColl.fetch({ reset: true, success: function(){
     if(!settingsColl.length){
+        // This sets the deafault range values
         bootstrapAppData(tripsColl, settingsColl);
     }
     tripsColl.fetch({ reset: true });
