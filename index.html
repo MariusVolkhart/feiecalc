@@ -5,9 +5,9 @@
         <meta name='viewport' content='width=device-width, initial-scale=1, minimal-ui'>
 
         <meta name='author' content='Shane Reustle'>
-        <meta name='description' content='FEIE Calc is a tool for users to see if they qualify for the US Foreign Earned Income Exemption, and how much they are eligible to save.'>
+        <meta name='description' content='FEIE Calc is a physical presence test calculator for US citizens who spend most of their time abroad.'>
 
-        <title>FEIE Calc · A US Foreign Earned Income Tax Exemption calculator</title>
+        <title>FEIE Calc · A US Foreign Earned Income Tax Exclusion calculator</title>
 
         <!-- Styles from CDN -->
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
@@ -70,7 +70,7 @@
                         <img src='/static/img/drag.gif' align='right'/>
                         <h3>🗓 Getting Started</h3>
                         <p class='lead text-justify'>
-                            Start by filling in the calendar with each trip you took during the 12-month period you'd like to exclude. You'll find the physical presence test results below the calendar, along with some settings options.
+                            Start by filling in the calendar with each trip you took during the 12-month period you'd like to exclude. You'll find the physical presence test results below the calendar, along with some configuration options.
                         </p>
                     </div>
                    
@@ -93,7 +93,7 @@
                             
                             <!-- SETTINGS -->
                             <div class='alert alert-warning settings-well'>
-                                <h4>🛠 &nbsp;Range Settings</h4>
+                                <h4>🛠 &nbsp;Configuration</h4>
                                 <div class='row settings-container'></div>
                             </div>
                             
@@ -257,7 +257,7 @@
             </div>
             <div class='form-group col-sm-6'>
                 <label class='control-label'>End Date</label>
-                <input data-field='rangeEnd' type='date' class='form-control' value='<%= endDate %>' disabled/>
+                <input data-field='rangeEnd' type='date' class='form-control' value='<%= endDate %>' title='Defined in Pub. 54 as "the day before the same calendar day, 12 months later."' disabled/>
             </div>
         </script>
         

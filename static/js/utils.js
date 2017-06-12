@@ -259,3 +259,17 @@ var bootstrapAppData = function(tripsColl, settingsColl){
     
 }
 
+var loadNomadList = function(username){
+    // Load trips from a nomadlist account
+    
+    $.getJSON('https://nomadlist.com/@' + username + '.json', function(res){
+        res.trips.forEach(function(trip){
+            console.log({
+                'startDate': trip.date_start,
+                'endDate': trip.date_end,
+                'country': trip.country
+            });
+        });
+    });
+}
+
