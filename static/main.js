@@ -125,7 +125,7 @@ var ResultsView = Backbone.View.extend({
         var countryDays = [];
         _.keys(rawResults.countries).forEach(function(countryCode){
             countryDays.push({
-                country: countryByCode(countryCode),
+                country: countryByCode(countryCode).name,
                 days: rawResults.countries[countryCode]
             });
             fullDays += rawResults.countries[countryCode];
@@ -157,6 +157,13 @@ var TripFormView = Backbone.View.extend({
     template: _.template($('#template-trip-form').html()),
     
     events: {
+        'change [data-field=trip-country]': function(e, sec){
+            var selectedCountry = countryByCode(e.target.value);
+            if(selectedCountry.blocked){
+                console.log('blocked');
+                alert('The US considers this to be a US territory, therefore it does not count towards your exemption. You should leave this time period blank on your calendar.');
+            }
+        },
         'click button[data-action=save]': function(e){
             e.preventDefault();
             this.saveTrip();
@@ -194,7 +201,7 @@ var TripFormView = Backbone.View.extend({
             alert('Please select a date range not already occupied by another trip');
             return false;
         }
-        
+
         if(existingTrip){
             this.$el.find('.delete-trip').show();
             this.$el.find('[data-field=trip-id]').val(existingTrip.id);
@@ -247,6 +254,13 @@ var TripFormView = Backbone.View.extend({
             alert('End date must come after start date');
             return false;
         }
+        
+        var selectedCountry = countryByCode(values.country);
+        if(selectedCountry.blocked){
+            alert('You do not need to list your trips to US territories');
+            return false;
+        }
+        
         
         // Does this trip overlap with another trip ?
         // TODO

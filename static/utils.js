@@ -253,7 +253,7 @@ var mouseOnTrip = function(e){
 var countryByCode = function(code){
     return _.find(COUNTRIES, {
         code: code.toUpperCase()
-    }).name;
+    });
 }
 
 var bootstrapAppData = function(tripsColl, settingsColl){
