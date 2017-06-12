@@ -144,7 +144,7 @@
                                 <img src='/static/img/shane-reustle.jpg' align='left' alt='Shane Reustle'/>
                             </a>
                             
-                            I'm <a href='http://reustle.org'>Shane Reustle</a> and I built FEIE Calc after struggling with calculating travel dates for IRS form 2555 (feie) every year. I hope you find it useful.
+                            I'm <a href='http://reustle.org'>Shane Reustle</a> and I built FEIE Calc after struggling to calculate travel dates and transit days for IRS form 2555 (feie) every year. I hope you find it useful.
                         </p>
                     </div>
                 </div>
@@ -226,10 +226,8 @@
                 <tbody>
                     <% countryDays.forEach(function(thisCountry){ %>
                         <tr>
-                            <td>
-                                <%= thisCountry.emoji %>&nbsp;
-                                <%= thisCountry.country %>
-                            </td>
+                            <td><%= thisCountry.emoji %></td>
+                            <td><%= thisCountry.country %></td>
                             <td><%= thisCountry.days %> full days</td>
                         </tr>
                     <% }); %>

@@ -49,6 +49,8 @@ h3 {
 
 .results-container table {
   font-size: 14px; }
+  .results-container table tr > td:first-child {
+    width: 35px; }
 
 .section-pub-54 {
   margin-top: 50px;
