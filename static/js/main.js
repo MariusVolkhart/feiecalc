@@ -263,7 +263,11 @@ var TripFormView = Backbone.View.extend({
         
         
         // Does this trip overlap with another trip ?
-        // TODO
+        // TODO this currently conflicts with its own trip
+        if(false && !freeDateRange(values.startDate, values.endDate)){
+            alert('Cannot overlap other trips');
+            return false;
+        }
         
         return true;
     },
@@ -279,28 +283,30 @@ var TripFormView = Backbone.View.extend({
         var values = this.values();
         
         // Save the trip
+        var thisTrip;
         if(values.id){
-            var thisTrip = tripsColl.get(values.id);
+            thisTrip = tripsColl.get(values.id);
             thisTrip.set({
                 country: values.country,
                 startDate: values.startDate,
                 endDate: values.endDate
             });
-            thisTrip.save();
         }else{
-            var thisTrip = new TripModel({
+            thisTrip = new TripModel({
                 country: values.country,
                 startDate: values.startDate,
                 endDate: values.endDate
             });
             tripsColl.add(thisTrip);
-            thisTrip.save();
         }
+        thisTrip.save();
+        
         
         // Close the modal
         this.$el.modal('hide');
         this.$el.find('[data-field=trip-country]').val('').selectpicker('refresh');
         this.$el.find('[data-field=trip-id]').val('');
+        
     },
     
     deleteTrip: function(){
