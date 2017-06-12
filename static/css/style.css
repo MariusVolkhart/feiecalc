@@ -77,7 +77,8 @@
       top: 270px; }
 
 .section-creator {
-  margin-bottom: 100px; }
+  margin-bottom: 100px;
+  text-align: justify; }
   .section-creator img {
     max-height: 100px;
     border-radius: 50%;
