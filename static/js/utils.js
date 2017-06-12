@@ -95,7 +95,7 @@ var safeDate = function(dateStr){
 var generateTravelResults = function(rangeStart, rangeEnd){
     // Return an object describing the trips during the given range
     
-    var SAFE_LIMIT = 900;
+    var SAFE_LIMIT = 500;
     
     var results = {
         countries: {},

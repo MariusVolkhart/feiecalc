@@ -391,3 +391,8 @@ settingsColl.fetch({ reset: true, success: function(){
     tripsColl.fetch({ reset: true });
 }});
 
+// Init expandable pub54
+$('.expand-btn-container button').click(function(){
+    $(this).addClass('hide');
+    $(this).parents('.alert').css('height', 'auto');
+});

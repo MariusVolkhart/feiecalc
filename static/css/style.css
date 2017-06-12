@@ -51,12 +51,21 @@ h3 {
 .section-pub-54 {
   margin-top: 50px; }
   .section-pub-54 .alert {
+    height: 350px;
+    overflow: hidden;
     color: #696969;
     line-height: 24px;
     background-color: #eee;
     border-color: #dadada; }
     .section-pub-54 .alert p, .section-pub-54 .alert ul {
       margin-bottom: 20px; }
+    .section-pub-54 .alert .expand-btn-container {
+      height: 0px;
+      float: left;
+      position: relative;
+      width: 100%;
+      text-align: center;
+      top: 270px; }
 
 .footer-text {
   margin: 30px 0px 40px 0px;
