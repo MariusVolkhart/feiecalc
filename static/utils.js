@@ -109,11 +109,11 @@ var generateTravelResults = function(rangeStart, rangeEnd){
     while(!dateCounter.isSame(rangeEndPlusOne) && SAFE_LIMIT){
         SAFE_LIMIT--;
         
-        // Continue if a trip doesn't exist on this date
-        var existingTrip = freeDate(dateCounter, true);
-        
         // Increment date counter
         dateCounter.add(1, 'days');
+        
+        // Continue if a trip doesn't exist on this date
+        var existingTrip = freeDate(dateCounter, true);
         
         if(!existingTrip){
             continue;
@@ -122,11 +122,6 @@ var generateTravelResults = function(rangeStart, rangeEnd){
         // Prepare country details
         var thisTrip = tripsColl.get(existingTrip);
         var thisTripCo = thisTrip.get('country');
-        
-        // Skip USA
-        if(thisTripCo == 'us'){
-            continue;
-        }
         
         var tripSD = moment(thisTrip.get('startDate'));
         var tripED = moment(thisTrip.get('endDate'));
@@ -218,13 +213,7 @@ var mouseOnTrip = function(e){
             var startDate = safeDate(e.events[i].startDate);
             var endDate =  safeDate(e.events[i].endDate);
             
-            //console.log('--');
-            //console.log(startDate._d)
-            //console.log(endDate._d);
-            
             var tripDuration = duration(startDate, endDate);
-            
-            //console.log(tripDuration);
             
             content += '\
                 <div class="event-tooltip-content">\
