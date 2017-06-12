@@ -178,7 +178,10 @@
                 <select data-field='trip-country' class='form-control selectpicker' data-live-search='true'>
                     <option value='' disabled selected>Which country did you visit?</option>
                     <% countries.forEach(function(country){ %>
-                        <option value='<%= country.code.toLowerCase() %>' <% if(country.blocked){ %>data-blocked='true'<% } %> ><%= country.name %></option>
+                        <option value='<%= country.code.toLowerCase() %>' <% if(country.blocked){ %>data-blocked='true'<% } %> >
+                            <%= country.emoji %>&nbsp;
+                            <%= country.name %>
+                        </option>
                     <% }) %>
                 </select>
             </div>
@@ -223,7 +226,10 @@
                 <tbody>
                     <% countryDays.forEach(function(thisCountry){ %>
                         <tr>
-                            <td><%= thisCountry.country %></td>
+                            <td>
+                                <%= thisCountry.emoji %>&nbsp;
+                                <%= thisCountry.country %>
+                            </td>
                             <td><%= thisCountry.days %> full days</td>
                         </tr>
                     <% }); %>

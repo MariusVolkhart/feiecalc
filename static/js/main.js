@@ -124,8 +124,10 @@ var ResultsView = Backbone.View.extend({
         var fullDays = 0;
         var countryDays = [];
         _.keys(rawResults.countries).forEach(function(countryCode){
+            var thisCountry = countryByCode(countryCode);
             countryDays.push({
-                country: countryByCode(countryCode).name,
+                country: thisCountry.name,
+                emoji: thisCountry.emoji,
                 days: rawResults.countries[countryCode]
             });
             fullDays += rawResults.countries[countryCode];
