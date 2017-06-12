@@ -56,27 +56,42 @@ $MOBILE: "(max-width: 792px)";
     }
 }
 
-h3 {
-    margin: 20px 0px;
-}
-
-#calendar {
+.section-calendar {
     margin-bottom: 50px;
-
-    .day {
-        cursor: pointer;
+    
+    #calendar {
+        .day {
+            cursor: pointer;
+        }
     }
 }
 
-.settings-well h4 {
-    margin-top: 0px;
-}
+.section-results {
+    .results-page {
+        box-shadow: 2px 2px 12px 0px #ccc;
+        padding: 10px 25px;
+        
+        .progress {
+            margin-bottom: 40px;
+        }
 
-.results-container table {
-    font-size: 14px;
-    
-    tr>td:first-child {
-        width: 35px;
+        table {
+            font-size: 14px;
+            margin-bottom: 20px;
+            
+            tr>td:first-child {
+                width: 35px;
+            }
+        }
+        
+        .transit-days {
+            margin-bottom: 30px;
+        }
+        
+    }
+
+    .settings-well h4 {
+        margin-top: 0px;
     }
 }
 
@@ -110,7 +125,7 @@ h3 {
 }
 
 .section-creator {
-    margin-bottom: 60px;
+    margin-bottom: 100px;
     
     img {
         max-height: 100px;
@@ -127,6 +142,10 @@ a {
     &:hover, &:active, &:focus {
         color: darken($PRIMARY, 10%);
     }
+}
+
+h3 {
+    margin: 20px 0px;
 }
 
 .btn-primary {
