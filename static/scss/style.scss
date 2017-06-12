@@ -135,6 +135,14 @@ $MOBILE: "(max-width: 792px)";
     }
 }
 
+.section-disclaimer {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 14px;
+    font-style: italic;
+    color: #333;
+}
+
 /* Overrides */
 a {
     color: $PRIMARY;

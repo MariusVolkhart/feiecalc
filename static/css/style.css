@@ -84,6 +84,13 @@
     margin-right: 20px;
     border: 3px solid #ef8e00; }
 
+.section-disclaimer {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 14px;
+  font-style: italic;
+  color: #333; }
+
 /* Overrides */
 a {
   color: #ef8e00; }
