@@ -76,6 +76,7 @@ var SettingsView = Backbone.View.extend({
         },
         'click button[data-action=clear]': function(e){
             e.preventDefault();
+            e.target.blur();
             if(!confirm('Are you sure you want to clear all of your trip data?')){
                 return;
             }
