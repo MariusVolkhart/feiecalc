@@ -259,17 +259,51 @@ var bootstrapAppData = function(tripsColl, settingsColl){
     
 }
 
-var loadNomadList = function(username){
+var loadNomadList = function(){
     // Load trips from a nomadlist account
     
+    var username = prompt('What is your nomadlist username?');
+    if(!username){
+        return;
+    }
+    
     $.getJSON('https://nomadlist.com/@' + username + '.json', function(res){
+        if(!res.success || !res.username){
+            return;
+        }
+        
+        // TODO Don't include zero-day trips
+        // TODO Merge adjacent trips w/ same country
+        
         res.trips.forEach(function(trip){
-            console.log({
-                'startDate': trip.date_start,
-                'endDate': trip.date_end,
-                'country': trip.country
+            var country = trip.country_code;
+            
+            // Edge Cases / Bugs
+            if(country == 'UK'){
+                country = 'GB';
+            }else if(trip.country == 'Myanmar'){
+                country = 'MM';
+            }
+            
+            if(!country || !trip.date_start || !trip.date_end){
+                console.log('BAD TRIP');
+                console.log(trip);
+                return;
+            }
+            
+            var newTrip = new TripModel({
+                'startDate': safeDate(trip.date_start),
+                'endDate': safeDate(trip.date_end),
+                'country': country.toLowerCase()
             });
+            tripsColl.add(newTrip);
+            newTrip.save();
         });
+        
+        tripsColl.trigger('recalculate');
+        
+    }).fail(function(){
+        alert('Woops! Looks like we can\'t find that account on NomadList. Are you sure you typed it correctly?');
     });
 }
 

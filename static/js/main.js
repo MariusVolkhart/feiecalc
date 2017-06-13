@@ -73,6 +73,19 @@ var SettingsView = Backbone.View.extend({
             
             }.bind(this), 250);
             
+        },
+        'click button[data-action=clear]': function(e){
+            e.preventDefault();
+            if(!confirm('Are you sure you want to clear all of your trip data?')){
+                return;
+            }
+            var tripModel;
+            while (tripModel = tripsColl.first()) {
+                tripModel.destroy();
+            }
+            
+            tripsColl.trigger('recalculate');
+                
         }
     },
     
@@ -107,10 +120,7 @@ var ResultsView = Backbone.View.extend({
         
         this.settingsColl.on('change reset', this.render.bind(this));
         
-        this.tripsColl.on('change reset', function(newModel){ 
-            if(newModel && newModel.get('sampleTrip')){ return }
-            this.render();
-        }.bind(this));
+        this.tripsColl.on('recalculate', this.render.bind(this));
         
     },
     
@@ -162,7 +172,6 @@ var TripFormView = Backbone.View.extend({
         'change [data-field=trip-country]': function(e, sec){
             var selectedCountry = countryByCode(e.target.value);
             if(selectedCountry.blocked){
-                console.log('blocked');
                 alert('The US considers this to be a US territory, therefore it does not count towards your exemption. You should leave this time period blank on your calendar.');
             }
         },
@@ -309,6 +318,8 @@ var TripFormView = Backbone.View.extend({
         this.$el.find('[data-field=trip-country]').val('').selectpicker('refresh');
         this.$el.find('[data-field=trip-id]').val('');
         
+        tripsColl.trigger('recalculate');
+        
     },
     
     deleteTrip: function(){
@@ -317,7 +328,8 @@ var TripFormView = Backbone.View.extend({
             var thisTrip = tripsColl.get(tripId);
             thisTrip.destroy();
             this.$el.modal('hide');
-            tripsColl.trigger('change');
+            
+            tripsColl.trigger('recalculate');
         }
     }
     
@@ -366,15 +378,16 @@ $('#calendar').calendar({
 });
 
 // Update the calendar every time the trips collection changes
-tripsColl.on('change reset', function(newModel){
+tripsColl.on('recalculate', function(newModel){
     if(newModel && newModel.get('sampleTrip')){ return }
     
     var tripsList = [];
     this.each(function(trip){
+        var thisCountry = _.find(COUNTRIES, {
+            code: trip.attributes.country.toUpperCase()
+        })
         tripsList.push({
-            country: _.find(COUNTRIES, {
-                code: trip.attributes.country.toUpperCase()
-            }).name,
+            country: thisCountry.name,
             startDate: safeDate(trip.attributes.startDate)._d,
             endDate: safeDate(trip.attributes.endDate)._d
         });
@@ -390,7 +403,9 @@ settingsColl.fetch({ reset: true, success: function(){
         // This sets the deafault range values
         bootstrapAppData(tripsColl, settingsColl);
     }
-    tripsColl.fetch({ reset: true });
+    tripsColl.fetch({ reset: true, success: function(coll){
+        coll.trigger('recalculate');
+    }.bind(this)});
 }});
 
 // Init expandable pub54

@@ -747,7 +747,7 @@ var COUNTRIES = [
         "code": "LA",
         "emoji": "🇱🇦",
         "unicode": "U+1F1F1 U+1F1E6",
-        "name": "Lao People's Democratic Republic"
+        "name": "Laos"
     },
     {
         "code": "LB",
