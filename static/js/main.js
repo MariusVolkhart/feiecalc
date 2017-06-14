@@ -272,9 +272,10 @@ var TripFormView = Backbone.View.extend({
         }
         
         
+        
         // Does this trip overlap with another trip ?
-        // TODO this currently conflicts with its own trip
-        if(false && !freeDateRange(values.startDate, values.endDate)){
+        var tripId = values.id || null;
+        if(!freeDateRange(values.startDate, values.endDate, tripId)){
             alert('Cannot overlap other trips');
             return false;
         }

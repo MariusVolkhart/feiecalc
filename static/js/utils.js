@@ -2,15 +2,20 @@
 
 var DF = 'YYYY-MM-DD';
 
-var freeDate = function(tripDate, returnTripId){
+var freeDate = function(tripDate, returnTripId, excludeTrip){
     // Check whether a date is occupied by an existing trip
     // Takes tripDate (moment obj)
     // Returns true/false or a trip id (2nd arg setting)
     
+    // TODO redo this so it returns sane values
+    // currently returns TRUE or STRING wtf
+    
     // Check for overlap
     var overlap = false;
     tripsColl.each(function(trip){
-        if(tripDate.isBetween(safeDate(trip.attributes.startDate), safeDate(trip.attributes.endDate))){
+        var thisTripStartDate = safeDate(trip.get('startDate'));
+        var thisTripEndDate = safeDate(trip.get('endDate'));
+        if(tripDate.isBetween(thisTripStartDate, thisTripEndDate)){
             overlap = trip.id;
         }
     });
@@ -28,9 +33,13 @@ var freeDate = function(tripDate, returnTripId){
     var tripEnds = false;
     tripsColl.each(function(trip){
         if(safeDate(trip.attributes.startDate).format(DF) == tripDate.format(DF)){
-            tripStarts = trip.id;
+            if(trip.id != excludeTrip){
+                tripStarts = trip.id;
+            }
         }else if(safeDate(trip.attributes.endDate).format(DF) == tripDate.format(DF)){
-            tripEnds = trip.id;
+            if(trip.id != excludeTrip){
+                tripEnds = trip.id;
+            }
         }
     });
     
@@ -49,16 +58,30 @@ var freeDate = function(tripDate, returnTripId){
     return true;
 }
 
-var freeDateRange = function(startDate, endDate){
+var freeDateRange = function(startDate, endDate, excludeTrip){
     // Check whether a date range crosses or contains an
     // existing trip
     
-    if(!freeDate(startDate) || !freeDate(endDate)){
-        return false;
+    var freeStartDate = freeDate(startDate, true, excludeTrip);
+    var freeEndDate = freeDate(endDate, true, excludeTrip);
+    
+    if(typeof(freeStartDate) == 'string'){
+        if(freeStartDate != excludeTrip){
+            return false;
+        }
+    }else if(typeof(freeEndDate) == 'string'){
+        if(freeEndDate != excludeTrip){
+            return false;
+        }
     }
     
     var encapsulates = false;
     tripsColl.each(function(trip){
+        
+        if(trip.id == excludeTrip){
+            return;
+        }
+        
         if(safeDate(trip.attributes.startDate).isBetween(startDate, endDate)){
             encapsulates = true;
         }else if(safeDate(trip.attributes.endDate).isBetween(startDate, endDate)){
