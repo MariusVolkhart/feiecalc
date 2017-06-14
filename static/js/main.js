@@ -80,10 +80,8 @@ var SettingsView = Backbone.View.extend({
             if(!confirm('Are you sure you want to clear all of your trip data?')){
                 return;
             }
-            var tripModel;
-            while (tripModel = tripsColl.first()) {
-                tripModel.destroy();
-            }
+            
+            clearTrips(tripsColl);
             
             tripsColl.trigger('recalculate');
                 

@@ -99,7 +99,8 @@ var generateTravelResults = function(rangeStart, rangeEnd){
     
     var results = {
         countries: {},
-        transitDays: 0
+        transitDays: 0,
+        totalDays: 0
     };
     
     // Count all the full days in another country
@@ -152,7 +153,7 @@ var generateTravelResults = function(rangeStart, rangeEnd){
     
     // Count all valid transit days
     // Transit day = leave one country and enter another within 24 hours
-    // We do this by checking 
+    // We do this by checking if start/end date is same or +1
     tripsColl.each(function(trip){
         var hasOnwardTrip = false;
         var tripEnd = safeDate(trip.get('endDate'));
@@ -163,7 +164,7 @@ var generateTravelResults = function(rangeStart, rangeEnd){
             return;
         }
         
-        // Look for another trip with start date as same day or next day
+        // Look for another trip with start date as this trip end date
         tripsColl.each(function(trip2){
             var trip2Start = safeDate(trip2.get('startDate'));
             
@@ -198,6 +199,11 @@ var generateTravelResults = function(rangeStart, rangeEnd){
         }
         
     }.bind(this));
+    
+    results.sum = results.transitDays
+    _.keys(results.countries).forEach(function(co){
+        results.sum += results.countries[co];
+    });
     
     return results;
     
@@ -305,5 +311,28 @@ var loadNomadList = function(){
     }).fail(function(){
         alert('Woops! Looks like we can\'t find that account on NomadList. Are you sure you typed it correctly?');
     });
+}
+
+var addTrips = function(tripsColl, tripsList){
+    // Add a list of simple trips
+    
+    tripsList.forEach(function(thisTrip){
+        var newTrip = new TripModel({
+            country: thisTrip.country.toLowerCase(),
+            startDate: safeDate(thisTrip.startDate),
+            endDate: safeDate(thisTrip.endDate)
+        });
+        tripsColl.add(newTrip);
+        newTrip.save();
+    });
+}
+
+var clearTrips = function(tripsColl){
+    // Clear all trips from a collection
+    
+    var tripModel;
+    while(tripModel = tripsColl.first()){
+        tripModel.destroy();
+    }
 }
 
