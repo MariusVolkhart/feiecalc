@@ -144,7 +144,7 @@ var ResultsView = Backbone.View.extend({
         countryDays = _.sortBy(countryDays, 'days').reverse();
         
         var transitDays = rawResults.transitDays;
-        var totalDays = fullDays + transitDays;
+        var totalDays = rawResults.sum;
  
         // Progress Bar
         var progress = Math.round(totalDays/TARGET_COUNT*100);
