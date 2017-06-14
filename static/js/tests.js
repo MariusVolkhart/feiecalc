@@ -7,12 +7,8 @@ var runTests = function(tripsColl, settingsColl){
     - us territories
     */
     
-    if(!tripsColl || !settingsColl){
-        console.log('Pass in collections (trips, settings)');return;
-    }
-    
+
     // TEST CASES
-    
     var testCases = [{
         
         desc: 'Trip filling entire year',
@@ -40,7 +36,7 @@ var runTests = function(tripsColl, settingsColl){
         
     },{
  
-        desc: 'Two trips with a transit day',
+        desc: 'Two trips with 2 transit days',
         
         rangeStart: '2017-01-01',
         trips: [
@@ -51,7 +47,26 @@ var runTests = function(tripsColl, settingsColl){
         targetTransitDays: 2,
         targetSum: 365
        
+    },{
+        
+        desc: 'Two trips with 1 full day in between (not transit day)',
+        
+        rangeStart: '2017-01-01',
+        trips: [
+            ['fr', '2016-12-20', '2017-06-01'],
+            ['it', '2017-06-03', '2018-01-22']
+        ],
+        
+        targetTransitDays: 0,
+        targetSum: 362
+       
     }];
+    
+    
+    if(!tripsColl || !settingsColl){
+        console.log('Pass in collections (trips, settings)');return;
+    }
+    
 
     // RUN TESTS
     
