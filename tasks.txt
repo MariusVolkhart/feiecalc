@@ -7,4 +7,5 @@
 - more unit tests (misc edge cases)
 - schengen overstay notification
 - data table of exclusion amounts by year (updated each year for inflation)
+- some kind of open ended trip support (via mandy)
 
