@@ -1,4 +1,4 @@
-$PRIMARY: #ef8e00;
+$PRIMARY: #4caf50;
 $MOBILE: "(max-width: 792px)";
 
 /* Sections */
@@ -184,3 +184,7 @@ h3 {
     min-width: 100px;
 }
 
+.alert-custom {
+    background-color: lighten($PRIMARY, 45%);
+    border-color: lighten($PRIMARY, 40%);
+}

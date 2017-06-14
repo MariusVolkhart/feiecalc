@@ -62,7 +62,7 @@
                         </p>
                     </div>
                     
-                    <div class='section-cta alert alert-warning'>
+                    <div class='section-cta alert alert-custom'>
                         <form action='http://reustle.us7.list-manage.com/subscribe/post?u=7529e30edd60b5d1f5ba46e68&amp;id=61fa7cae49' method='post' name='mc-embedded-subscribe-form' target='_blank'>
 
                             <div class='row'>
@@ -107,7 +107,7 @@
                         <div class='col-sm-5'>
                             
                             <!-- SETTINGS -->
-                            <div class='alert alert-warning settings-well'>
+                            <div class='alert alert-custom settings-well'>
                                 <h4>🛠 &nbsp;Configuration</h4>
                                 <div class='row settings-container'></div>
                             </div>
@@ -255,16 +255,16 @@
                 <h4>✈️ &nbsp;Plus <%= transitDays %> valid transit days</h4>
             </div>
             
-            <div class='alert alert-warning'>
+            <div class='alert alert-custom'>
 
-            <!-- Pass or Fail -->
-            <% if(passed){ %>
-                <h4>✅ &nbsp;Test Passed</h4>
-            <% }else{ %>
-                <h4>🔴 &nbsp;Test Failed</h4>
-                Only
-            <% } %>
-            <%= totalDays %> total days outside the US
+                <!-- Pass or Fail -->
+                <% if(passed){ %>
+                    <h4>✅ &nbsp;Test Passed</h4>
+                <% }else{ %>
+                    <h4>🔴 &nbsp;Test Failed</h4>
+                    Only
+                <% } %>
+                <%= totalDays %> total days outside the US
             
             </div>
             
