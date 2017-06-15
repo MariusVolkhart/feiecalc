@@ -311,6 +311,7 @@ var loadNomadList = function(){
         // Clear all existing trips
         clearTrips(tripsColl);
         
+        var cleanTrips = [];
         res.trips.forEach(function(trip){
             var country = trip.country_code;
             
@@ -333,14 +334,15 @@ var loadNomadList = function(){
                 return;
             }
             
-            var newTrip = new TripModel({
+            cleanTrips.push({
+                'country': country.toLowerCase(),
                 'startDate': safeDate(trip.date_start),
-                'endDate': safeDate(trip.date_end),
-                'country': country.toLowerCase()
+                'endDate': safeDate(trip.date_end)
             });
-            tripsColl.add(newTrip);
-            newTrip.save();
         });
+        
+        // Add to trips coll
+        addTrips(tripsColl, cleanTrips);
         
         tripsColl.trigger('recalculate');
         
@@ -353,6 +355,13 @@ var addTrips = function(tripsColl, tripsList){
     // Add a list of simple trips
     
     tripsList.forEach(function(thisTrip){
+        
+        // Skip if blocked country
+        var tripCountry = countryByCode(thisTrip.country);
+        if(tripCountry.blocked){
+            return;
+        }
+        
         var newTrip = new TripModel({
             country: thisTrip.country.toLowerCase(),
             startDate: safeDate(thisTrip.startDate),
