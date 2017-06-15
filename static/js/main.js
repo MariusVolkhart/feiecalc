@@ -198,18 +198,24 @@ var TripFormView = Backbone.View.extend({
         
         // Clicked a date, maybe an event
         var existingTrip = false;
-        if(startDate.format('YYYY-MM-DD') == endDate.format('YYYY-MM-DD')){
-            var tripId = freeDate(startDate, true);
-            if(tripId){
-                existingTrip = tripsColl.get(tripId);
-            }else{
+        if(startDate && endDate){
+        
+            if(startDate.format('YYYY-MM-DD') == endDate.format('YYYY-MM-DD')){
+                var tripId = freeDate(startDate, true);
+                if(typeof(tripId) == 'string'){
+                    existingTrip = tripsColl.get(tripId);
+                }else{
+                    return false;
+                }
+            }
+            
+            if(!existingTrip && !freeDateRange(startDate, endDate)){
+                alert('Please select a date range not already occupied by another trip');
                 return false;
             }
-        }
-        
-        if(!existingTrip && !freeDateRange(startDate, endDate)){
-            alert('Please select a date range not already occupied by another trip');
-            return false;
+        }else{
+            startDate = moment();
+            endDate = moment();
         }
 
         if(existingTrip){
@@ -413,3 +419,9 @@ $('.expand-btn-container button').click(function(){
     $(this).addClass('hide');
     $(this).parents('.alert').css('height', 'auto');
 });
+
+// Add Trips Btn (since its not a view
+$('button[data-action=addTrip]').click(function(){
+    tripForm.showTripForm();
+});
+
