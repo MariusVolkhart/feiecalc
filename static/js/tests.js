@@ -5,6 +5,7 @@ var runTests = function(tripsColl, settingsColl){
     - 0 full day trip with 2 trips on either side, w/ and without overnight transit
     - leap year
     - us territories
+    - ex: 10th depart countryA, 11th enter and depart countryB, 12th enter countryC
     */
     
 

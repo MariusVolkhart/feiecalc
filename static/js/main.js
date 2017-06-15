@@ -74,8 +74,12 @@ var SettingsView = Backbone.View.extend({
             }.bind(this), 250);
             
         },
-        'click button[data-action=clear]': function(e){
+        'click [data-action=importNomadList]': function(e){
+            e.target.blur();
             e.preventDefault();
+            loadNomadList();
+        },
+        'click button[data-action=clear]': function(e){
             e.target.blur();
             if(!confirm('Are you sure you want to clear all of your trip data?')){
                 return;

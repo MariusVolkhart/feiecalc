@@ -320,6 +320,11 @@ var loadNomadList = function(){
                 return;
             }
             
+            if(trip.date_start == trip.date_end){
+                // Zero day trip 
+                return;
+            }
+            
             var newTrip = new TripModel({
                 'startDate': safeDate(trip.date_start),
                 'endDate': safeDate(trip.date_end),
