@@ -296,13 +296,20 @@ var loadNomadList = function(){
         return;
     }
     
+    var confirmClear = confirm('Are you sure you want to import your trips? All existing trips on FEIE Calc will be removed.');
+    if(!confirmClear){
+        return;
+    }
+    
     $.getJSON('https://nomadlist.com/@' + username + '.json', function(res){
         if(!res.success || !res.username){
             return;
         }
         
-        // TODO Don't include zero-day trips
         // TODO Merge adjacent trips w/ same country
+        
+        // Clear all existing trips
+        clearTrips(tripsColl);
         
         res.trips.forEach(function(trip){
             var country = trip.country_code;
@@ -320,6 +327,7 @@ var loadNomadList = function(){
                 return;
             }
             
+            // Don't include zero-day trips
             if(trip.date_start == trip.date_end){
                 // Zero day trip 
                 return;

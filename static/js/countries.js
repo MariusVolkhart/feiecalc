@@ -52,7 +52,8 @@ var COUNTRIES = [
     {
         "code": "AS",
         "emoji": "🇦🇸",
-        "name": "American Samoa"
+        "name": "American Samoa",
+        "blocked": true
     },
     {
         "code": "AT",
@@ -457,7 +458,8 @@ var COUNTRIES = [
     {
         "code": "GU",
         "emoji": "🇬🇺",
-        "name": "Guam"
+        "name": "Guam",
+        "blocked": true
     },
     {
         "code": "GW",
@@ -742,7 +744,8 @@ var COUNTRIES = [
     {
         "code": "MP",
         "emoji": "🇲🇵",
-        "name": "Northern Mariana Islands"
+        "name": "Northern Mariana Islands",
+        "blocked": true
     },
     {
         "code": "MQ",
@@ -907,7 +910,8 @@ var COUNTRIES = [
     {
         "code": "PR",
         "emoji": "🇵🇷",
-        "name": "Puerto Rico"
+        "name": "Puerto Rico",
+        "blocked": true
     },
     {
         "code": "PS",
@@ -1157,12 +1161,14 @@ var COUNTRIES = [
     {
         "code": "UM",
         "emoji": "🇺🇲",
-        "name": "United States Minor Outlying Islands"
+        "name": "United States Minor Outlying Islands",
+        "blocked": true
     },
     {
         "code": "US",
         "emoji": "🇺🇸",
-        "name": "United States"
+        "name": "United States",
+        "blocked": true
     },
     {
         "code": "UY",
@@ -1197,7 +1203,8 @@ var COUNTRIES = [
     {
         "code": "VI",
         "emoji": "🇻🇮",
-        "name": "Virgin Islands, U.S."
+        "name": "Virgin Islands, U.S.",
+        "blocked": true
     },
     {
         "code": "VN",
