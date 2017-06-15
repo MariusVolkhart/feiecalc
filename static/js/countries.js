@@ -1209,7 +1209,7 @@ var COUNTRIES = [
     {
         "code": "VN",
         "emoji": "🇻🇳",
-        "name": "Viet Nam"
+        "name": "Vietnam"
     },
     {
         "code": "VU",
