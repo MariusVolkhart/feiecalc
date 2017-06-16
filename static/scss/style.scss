@@ -17,6 +17,7 @@ $MOBILE: "(max-width: 792px)";
 
     h2 {
         margin: 25px 15px;
+        font-weight: 800;
         
         @media #{$MOBILE} {
             text-align: center;
@@ -24,6 +25,7 @@ $MOBILE: "(max-width: 792px)";
     }
     
     p {
+        font-weight: 400;
         font-size: 24px;
         background: rgba(255,255,255,0.7);
         padding: 15px;

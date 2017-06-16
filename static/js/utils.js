@@ -347,7 +347,7 @@ var loadNomadList = function(){
         tripsColl.trigger('recalculate');
         
     }).fail(function(){
-        alert('Woops! Looks like we can\'t find that account on NomadList. Are you sure you typed it correctly?');
+        alert('Woops! Looks like we can\'t find that account on Nomad List. Are you sure you typed it correctly?');
     });
 }
 
