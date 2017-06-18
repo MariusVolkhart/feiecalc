@@ -398,6 +398,7 @@ tripsColl.on('recalculate', function(newModel){
         })
         tripsList.push({
             country: thisCountry.name,
+            countryEmoji: thisCountry.emoji,
             startDate: safeDate(trip.attributes.startDate)._d,
             endDate: safeDate(trip.attributes.endDate)._d
         });
@@ -424,8 +425,15 @@ $('.expand-btn-container button').click(function(){
     $(this).parents('.alert').css('height', 'auto');
 });
 
-// Add Trips Btn (since its not a view
+// Add Trips Btn (since its not a view)
 $('button[data-action=addTrip]').click(function(){
     tripForm.showTripForm();
 });
+
+// Add sampel btn
+$('a[data-action=loadSample]').click(function(e){
+    e.preventDefault();
+    loadNomadList('reustle');
+});
+
 

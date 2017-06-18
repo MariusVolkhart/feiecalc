@@ -249,6 +249,8 @@ var mouseOnTrip = function(e){
                     <div class="event-name" style="color:' +
                         e.events[i].color + 
                         '">' +
+                        e.events[i].countryEmoji +
+                        ' &nbsp;' +
                         e.events[i].country +
                     '</div>' +
                     '<div class="event-location">' +
@@ -288,10 +290,12 @@ var bootstrapAppData = function(tripsColl, settingsColl){
     
 }
 
-var loadNomadList = function(){
+var loadNomadList = function(username){
     // Load trips from a nomadlist account
     
-    var username = prompt('What is your nomadlist username?');
+    if(!username){
+        var username = prompt('What is your nomadlist username?');
+    }
     if(!username){
         return;
     }
