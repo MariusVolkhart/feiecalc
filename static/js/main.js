@@ -430,10 +430,11 @@ $('button[data-action=addTrip]').click(function(){
     tripForm.showTripForm();
 });
 
-// Add sampel btn
+/*
+// Add sample btn
 $('a[data-action=loadSample]').click(function(e){
     e.preventDefault();
     loadNomadList('reustle');
 });
-
+*/
 
