@@ -281,8 +281,8 @@ var bootstrapAppData = function(tripsColl, settingsColl){
     
     var rangePeriod = new Backbone.Model({
         settingKey: 'range',
-        startDate: '2017-01-01',
-        endDate: '2017-12-31'
+        startDate: '2019-01-01',
+        endDate: '2019-12-31'
     });
     
     settingsColl.add(rangePeriod);
