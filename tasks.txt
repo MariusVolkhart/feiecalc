@@ -1,8 +1,0 @@
-- BUG can't click 0-day length trips
-- explain 24-hour rule if there are any overnight travel dates marked
-- handle international date line crossing (how?)
-- more unit tests (misc edge cases)
-- schengen overstay notification
-- data table of exclusion amounts by year (updated each year for inflation)
-- some kind of open ended trip support (via mandy)
-
