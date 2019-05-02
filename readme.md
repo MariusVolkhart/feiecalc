@@ -5,6 +5,11 @@ This is a calculator for the Physical Presence Test, part of the Foreign Earned 
 
 # Running Locally
 
+This is a simple static site, but you can run it as a webserver using
+```
+python3 -m http.server
+```
+
 Use the following command to constantly build scss files
 ```
 cd static/
