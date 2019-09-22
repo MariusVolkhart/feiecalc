@@ -15,3 +15,8 @@ Use the following command to constantly build scss files
 cd static/
 ./compile.sh
 ```
+
+Running tests: Run this in the browser console
+```
+runTests(tripsColl, settingsColl)
+```
